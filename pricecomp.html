@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script type="text/javascript" src="script.js"></script>
+        <style>
+            body {
+                background: #fff;
+                color: #00539F;
+                margin: 0;
+                font-family: sans-serif;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                overflow: hidden;
+            }
+
+            #titleCardScreen {
+                background: black;
+                color: #F6D803;
+                position: absolute;
+                width: 100vw;
+                height: 100vh;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 100px;
+                text-align: center;
+                opacity: .8;
+
+                animation: burstIn 1s ease;
+            }
+
+            @keyframes burstIn {
+                0% {opacity: 0;}
+                50% {opacity: 0;}
+                100% {opacity: .8;};
+            }
+            @keyframes fadeTitleOut {
+                0% {opacity: .8;}
+                100% {opacity: 0;};
+            }
+
+            #headerText {
+                text-align: center;
+                color: #EE1C2E;
+                font-family: sans-serif;
+                padding: 20px;
+            }
+
+            #centralCol{
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            #pcpContainer {
+                background: #00539F;
+                width: 450px;
+                padding: 25px;
+                border-radius: 70px;
+
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .arrow {
+                width: 0;
+                height: 0;
+                border-left: 10px solid transparent;
+                border-right: 10px solid transparent;
+                margin: 10px;
+                transition: .3s;
+            }
+            .arrow:hover {
+                transform: scale(1.1);
+                cursor: pointer;
+            }
+
+            #arrowTop {
+                border-bottom: 15px solid #fff;
+            }
+
+            #arrowBottom {
+                border-top: 15px solid #fff;
+            }
+
+            #productCard {
+                background: #fff;
+                border-radius: 35px;
+                padding: 10px;
+                text-align: center;
+                width: 75%;
+            }
+
+            #productCard img {
+                width: 200px;
+                height: auto;
+                margin: 15px 0;
+            }
+
+            .productTitle {
+                font-size: 28px;
+                font-weight: bold;
+            }
+
+            .productPrice {
+                margin-top: 10px;
+                font-size: 16px;
+                font-weight: bold;
+            }
+
+            .productDesc {
+                font-size: 14px;
+                color: #EE1C2E;
+            }
+
+            .selectBtn {
+                background: #F6D803;
+                color: #00539F;
+                font-weight: bold;
+                border: none;
+                border-radius: 20px;
+                padding: 12px 30px;
+                font-size: 18px;
+                margin-top: 15px;
+                cursor: pointer;
+                transition: 0.3s;
+            }
+            .selectBtn:hover{
+                background: #f0de5a;
+                transform:scale(1.05)
+            }
+
+            .homescreenBtn{
+                background: grey;
+                color: white;
+                border: none;
+                border-radius: 20px;
+                padding: 12px 30px;
+                font-size: 18px;
+                margin-top: 15px;
+                cursor: pointer;
+                transition: 0.3s;
+            }
+            .homescreenBtn:hover{
+                background: rgb(185, 185, 185);
+                transform:scale(1.05)
+            }
+
+            /* #leftCol{
+                background-color: #EE1C2E;
+                width: 100px;
+                height: auto;
+            }
+            #rightCol{
+                background-color: #EE1C2E;
+                width: 100px;
+                height: auto;
+            } */
+            #screenDiv{
+                margin-top: 0;
+                width: 100vw;
+                height: 100vh;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 150px;
+            }
+            #leftCol {
+                /* margin-top: 6%; */
+                background: #00539F;
+                background: linear-gradient(104deg,rgba(0, 83, 159, 1) 0%, rgba(0, 83, 159, 1) 27%, rgba(238, 27, 46, 1) 27%, rgba(238, 27, 46, 1) 47%, rgba(255, 255, 255, 1) 47%, rgba(255, 255, 255, 1) 100%);
+                width: 300px;
+                height: 100vh;
+                /* position: fixed; */
+                display: flex;
+                /* flex-direction: column; */
+                /* align-items: center;
+                overflow-y: scroll; */
+            }
+            #rightCol {
+                /* margin-top: 6%; */
+                background: #ffffff;
+                background: linear-gradient(83deg,rgba(255, 255, 255, 1) 34%, rgba(238, 27, 46, 1) 34%, rgba(238, 27, 46, 1) 53%, rgba(255, 255, 255, 1) 0%, rgba(0, 83, 159, 1) 53%, rgba(0, 83, 159, 1) 100%);
+                width: 300px;
+                height: 100vh;
+                /* position: fixed; */
+                display: flex;
+                /* flex-direction: column; */
+                /* align-items: center;
+                overflow-y: scroll; */
+            }
+
+        </style>
+    </head>
+    <body>
+        <div id="titleCardScreen">
+            <h1>PRICE COMPARISON PREVENTION</h1>
+        </div>
+        <div id="screenDiv">
+            <div id="leftCol"></div>
+            <div id="centralCol">
+                <h1 id="headerText">Whats the best value for money?</h1>
+                <div id="pcpContainer">
+
+                    <div id="arrowTop" class="arrow" onclick="nextItemTopArrow()"></div>
+                
+                    <div id="productCard">
+                        <div class="productTitle">Apple</div>
+                
+                        <img src="assets/price-comp-prevention/MPI_apple_png.png">
+                
+                        <div class="productPrice">Price: ¥1000</div>
+                        <div class="productDesc">
+                            Bright red delicious european apples<br>
+                            Shipped from Poland<br>
+                            MOQ: 100
+                        </div>
+                    </div>
+                
+                    <div id="arrowBottom" class="arrow" onclick="nextItemBotArrow()"></div>
+                
+                    <button class="selectBtn" onclick="endScreenSlate()">Select</button>
+                
+                </div>
+            </div>
+            <div id="rightCol"></div>
+        </div>
+
+        <!-- <div id="containerContainer">
+            <div id="comparisonContainer">
+                <div id="container1">
+                    <div class="prodImg"></div>
+                    <div class="prodText"></div>
+                </div>
+                <div id="container2">
+                    <div class="prodImg"></div>
+                    <div class="prodText"></div>
+                </div>
+            </div>
+        </div>
+         <div class="titleCard">
+            <h1>PRICE COMPARISON PREVENTION</h1>
+        </div> --> 
+        <script>
+            window.onload = function () {
+                setTimeout(fadeawayTitleCard, 4000)
+            }
+
+            let arrayNum = 0;
+            let appleCode = `
+            <div class="productTitle">Apple</div>
+                    
+                    <img src="assets/price-comp-prevention/MPI_apple_png.png">
+            
+                    <div class="productPrice">Price: ¥1000</div>
+                    <div class="productDesc">
+                        Bright red delicious european apples<br>
+                        Shipped from Poland<br>
+                        MOQ: 100
+                    </div>
+            `;
+
+            let orangeCode = `
+            <div class="productTitle">Orange</div>
+                    
+                    <img src="assets/price-comp-prevention/MPI_orange.png">
+            
+                    <div class="productPrice">Price: £2</div>
+                    <div class="productDesc">
+                        Sweetest oranges in the middle east
+                        50p per slice
+                    </div>
+            `;
+
+            let pineappleCode = `
+            <div class="productTitle">Pineapple</div>
+                    
+                    <img src="assets/price-comp-prevention/MPI_pineapple.png">
+            
+                    <div class="productPrice">Price: $15</div>
+                    <div class="productDesc">
+                        Tropical pineapple<br>
+                        Fresh from the Carribean<br>
+                        MOQ: 10
+                    </div>
+            `;
+
+            let bananaCode = `
+                <div class="productTitle">Banana</div>
+                    
+                    <img src="assets/price-comp-prevention/MPI_banana.png">
+            
+                    <div class="productPrice">Price: €80</div>
+                    <div class="productDesc">
+                        Delicious creamy banana<br>
+                        Stays fresher for longer<br>
+                        Shipped from Zimbabwe<br>
+                        MOQ: 4
+                    </div>
+            `;
+
+            let watermelonCode = `
+            <div class="productTitle">Watermelon</div>
+                    
+                    <img src="assets/price-comp-prevention/MPI_watermelon.png">
+            
+                    <div class="productPrice">Price: R$2400</div>
+                    <div class="productDesc">
+                        Refreshing and tasty watermelon<br>
+                        Shipped direct from Brazil<br>
+                        MOQ: 1
+                    </div>
+            `;
+
+            let grapeCode = `
+            <div class="productTitle">Grapes</div>
+                    
+                    <img src="assets/price-comp-prevention/MPI_grapes.png">
+            
+                    <div class="productPrice">Price: ₩4300</div>
+                    <div class="productDesc">
+                        Grapes to make you feel like an emperor<br>
+                        Shipped from Greece vinyards<br>
+                        MOQ: 88
+                    </div>
+            `;
+
+            let fruitArray = [appleCode, orangeCode, pineappleCode, bananaCode, watermelonCode, grapeCode];
+
+            function nextItemTopArrow(){
+                // arrayNum = arrayNum++;
+                if (arrayNum<5 && arrayNum > 0){
+                    arrayNum--;
+                }else{
+                    arrayNum = 5;
+                }
+                let prodCard = document.getElementById("productCard")
+                prodCard.innerHTML = fruitArray[arrayNum]
+                console.log(arrayNum)
+            }
+            function nextItemBotArrow(){
+                // arrayNum = arrayNum++;
+                if (arrayNum<5){
+                    arrayNum++;
+                }else{
+                    arrayNum = 0;
+                }
+                let prodCard = document.getElementById("productCard")
+                prodCard.innerHTML = fruitArray[arrayNum]
+                console.log(arrayNum)
+            }
+
+            function endScreenSlate(){
+            //if item = correct item, run correct screen else run incorrect screen
+            let screenCentr = document.getElementById("centralCol")
+
+            if(fruitArray[arrayNum] == orangeCode){
+                screenCentr.innerHTML = `
+                <h1 id="headerText">Price comparison prevention</h1>
+                <div id="pcpContainer">
+                
+                    <div id="productCard">
+                        <div class="productTitle">Watch this video</div>
+                        <iframe width="420" height="236"
+                            src="https://youtu.be/qAVGDMipP2U?si=kgDpNkXpzSOmJhkG">
+                        </iframe>
+
+                        <p>Watch this to understand in more depth how price comparison prevention works</p>
+                    </div>
+                        
+                    <a href="/index.html"><button class="homescreenBtn" onclick="goToHome">HOMEPAGE</button></a>
+                
+                </div>
+            `
+            }else{
+                screenCentr.innerHTML = `
+
+                <h1 id="headerText">NOPE</h1>
+                <div id="pcpContainer">
+                
+                    <div id="productCard">
+                        <div class="productTitle">Watch this video</div>
+                        <iframe width="420" height="236"
+                            src="https://youtu.be/qAVGDMipP2U?si=kgDpNkXpzSOmJhkG">
+                        </iframe>
+
+                        <p>Watch this to understand in more depth how price comparison prevention works</p>
+                    </div>
+                        
+                    <a href="/index.html"><button class="homescreenBtn" onclick="goToHome">HOMEPAGE</button></a>
+                
+                </div>
+                `
+            }
+            
+            }
+
+            function goToHome(){
+            location.href = "/index.html";
+            }
+
+        </script>
+    </body>
+</html>

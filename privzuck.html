@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script type="text/javascript" src="script.js"></script>
+        <style>
+            body {
+                background: white;
+                background: linear-gradient(0deg,rgba(24, 119, 242, 1) 0%, rgba(24, 119, 242, 1) 22%, rgba(255, 255, 255, 1) 22%, rgba(255, 255, 255, 1) 100%);
+                color: #1877F2;
+                margin: 0;
+                font-family: sans-serif;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                overflow: hidden;
+            }
+
+            #titleCardScreen {
+                background: black;
+                color: #1877F2;
+                position: absolute;
+                width: 100vw;
+                height: 100vh;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 100px;
+                text-align: center;
+                opacity: .8;
+                z-index: 40;
+
+                animation: burstIn 1s ease;
+            }
+
+            @keyframes burstIn {
+                0% {opacity: 0;}
+                50% {opacity: 0;}
+                100% {opacity: .8;};
+            }
+            @keyframes fadeTitleOut {
+                0% {opacity: .8;}
+                100% {opacity: 0;};
+            }
+
+            #centralCol{
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            #optionContainer {
+                background: white;
+                width: 500px;
+                height: auto;
+                padding: 40px;
+                border-radius: 10px;
+
+                display: flex;
+                flex-wrap: wrap;
+                flex-direction: row;
+                justify-content: center;
+                align-items: center;
+
+                filter: drop-shadow(7px 7px 10px rgba(0, 0, 0, 0.082));
+
+                /* display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px; */
+            }
+
+            .qOption{
+                border: solid 1px #CFD0D4;
+                height: 200px;
+                width: 200px;
+                background: whitesmoke;
+                border-radius: 10px;
+                margin: 10px;
+            }
+            .qOption:hover{
+                cursor: pointer;
+            }
+            .qOption img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+            .qOption p {
+                position: absolute;
+                color: white;
+            }
+
+            /*          POP UP STYLING            */
+            #pop-up-bg{
+                height: 100%;
+                width: 100%;
+
+                display: flex;
+                z-index: 200;
+                position: fixed;
+
+                text-align: center;
+                justify-content: center;
+                align-items: center;
+
+                background: rgba(0, 0, 0, 0.5);
+                opacity: 1;
+
+                animation: fadeIn ease 0.5s;
+
+            }
+
+            @keyframes fadeIn {
+                0% {opacity: 0;}
+                100% {opacity: 1;};
+            }
+            @keyframes fadeOut {
+                0% {opacity: 1;}
+                100% {opacity: 0;};
+            }
+
+            .pop-up{
+                display: flex;
+                flex-direction: column;
+                height: 600px;
+                width: 780px;
+                color: #4C7193;
+                background: white;
+                padding: 20px 40px;
+                border-radius: 10px;
+                filter: drop-shadow(10px 10px 4px rgba(0, 0, 0, 0.082));
+
+                overflow-y: scroll;
+                font-family: sans-serif;
+            }
+
+            .top-bot-borders{
+                border-top: solid 1.5px #11111120;
+                padding-top: 20px;
+            }
+
+            #homeButton{
+                color: white;
+                background: #1877F2;
+                border: none;
+                border-radius: 5px;
+                padding: 10px 50px;
+                transition: .2s ease;
+            }
+            #homeButton:hover{
+                background: #085de7;
+                cursor: pointer;
+            }
+
+            #topBanner{
+                background: white;
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                align-items: center;
+                /* padding: 20px; */
+                height: 50px;
+                /* border-bottom: #CFD0D4 1px solid; */
+                position: absolute;
+                top:0;
+                width: 100vw; 
+                filter: drop-shadow(0px 2px 5px rgba(0, 0, 0, 0.082));
+            }
+        </style>
+    </head>
+    <body>
+        <div id="titleCardScreen">
+            <h1>PRIVACY ZUCKERING</h1>
+        </div>
+        <!-- <h1 style="color: grey; font-size: 50px;">give me your data</h1> -->
+        <!-- <img src="homepage_icons/MPI_privzuck.png"> -->
+        <div id="topBanner">
+            <!-- <h1 style="color: white; font-size: 50px;">!!   SALE NOW   !!</h1> -->
+        </div>
+        <div id="screenDiv">
+            <div id="leftCol"></div>
+            <div id="centralCol">
+                <h1 id="headerText">Personality Test</h1>
+                <div id="optionContainer" style="color: black;">
+                    <div id="ans1" class="qOption" onclick="selectAnswer(1)">
+                        <img src="assets/privacy-zuckering-pics/q1/gaming.jpg">
+                        Click To Start!
+                    </div>
+                    <div id="ans2" class="qOption" onclick="selectAnswer(2)">
+                        <img src="assets/privacy-zuckering-pics/q1/gym.jpg">
+                        Click To Start!
+                    </div>
+                    <div id="ans3" class="qOption" onclick="selectAnswer(3)">
+                        <img src="assets/privacy-zuckering-pics/q1/netflixandtakeaway.jpg">
+                        Click To Start!
+                    </div>
+                    <div id="ans4" class="qOption" onclick="selectAnswer(4)">
+                        <img src="assets/privacy-zuckering-pics/q1/partywfriends.jpg">
+                        Click To Start!
+                    </div>
+                </div>
+            </div>
+            <div id="rightCol"></div>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+        <script>
+            window.onload = function () {
+                setTimeout(fadeawayTitleCard, 4000)
+            }
+
+            let playerProfile = {
+                consumerism: 0,
+                impulsivity: 0,
+                surveillanceComfort: 0,
+                nostalgia: 0,
+                socialValidation: 0,
+                adSusceptibility: 0
+            }
+
+            let q1 = `What's your ideal friday night?`
+            let q2 = `Pick a dream holiday`
+            let q3 = `Which app do you use the most?`
+            let q4 = `How do you normally shop?`
+            let q5 = `Pick a colour`
+            let q6 = `What motivates you most?`
+            let q7 = `Pick a headline that <em>grabs</em> you`
+            let q8 = `How do you exercise?`
+            let q9 = `Pick a throwback you remember`
+            let q10 = `How do you feel about sharing data online?`
+
+            let qArray = ["PERSONALITY TEST", q1, q2, q3, q4, q5, q6, q7, q8, q9, q10]
+
+            let ans1Code = [
+                    `
+                        <img src="assets/privacy-zuckering-pics/q1/gaming.jpg">
+                        Gaming
+                    `,
+
+                    `
+                        <img src="assets/privacy-zuckering-pics/q1/gaming.jpg">
+                        Gaming
+                    `,
+
+                    `
+                        <img src="assets/privacy-zuckering-pics/q2/backpacking.jpg">
+                        Backpacking
+                    `,
+
+                    `
+                        <img src="assets/privacy-zuckering-pics/q3/instalogo.png">
+                        Instagram
+                    `,
+
+                    `
+                        <img src="assets/privacy-zuckering-pics/q4/impulsebuy.jpg">
+                        Impulse buying
+                    `,
+
+                    `
+                        Red
+                    `,
+                    `
+                        <img src="assets/privacy-zuckering-pics/q6/happiness.jpg">
+                        Happiness
+                    `,
+                    `
+                        <img src="assets/privacy-zuckering-pics/q7/dailyexr.jpg">
+                        Daily
+                    `,
+                    `
+                        HEADLINE 1
+                    `,
+                    `
+                        <img src="assets/privacy-zuckering-pics/q9/earlyyoutube.jpeg">
+                        Early YouTube
+                    `,
+                    `
+                        DATA 1
+                    `,
+            ]
+
+            let ans2Code = [
+                    `
+                        <img src="assets/privacy-zuckering-pics/q1/gym.jpg">
+                        Gym
+                    `,
+
+                    `
+                        <img src="assets/privacy-zuckering-pics/q1/gym.jpg">
+                        Gym
+                    `,
+
+                    `
+                        <img src="assets/privacy-zuckering-pics/q2/citybreak.jpg">
+                        City Break
+                    `,
+
+                    `
+                        <img src="assets/privacy-zuckering-pics/q3/messagingapps.jpg">
+                        Messaging Apps
+                    `,
+
+                    `
+                        <img src="assets/privacy-zuckering-pics/q4/research.jpg">
+                        Research
+                    `,
+
+                    `
+                        Blue
+                    `,
+                    `
+                        <img src="assets/privacy-zuckering-pics/q6/money.jpg">
+                        Money
+                    `,
+                    `
+                        <img src="assets/privacy-zuckering-pics/q7/neverexr.jpg">
+                        Never
+                    `,
+                    `
+                        HEADLINE 2
+                    `,
+                    `
+                        <img src="assets/privacy-zuckering-pics/q9/fortnite.jpg">
+                        Fortnite
+                    `,
+                    `
+                        DATA 2
+                    `,
+            ]
+
+            let ans3Code = [
+                    `
+                        <img src="assets/privacy-zuckering-pics/q1/netflixandtakeaway.jpg">
+                        Netflix and Takeaway
+                    `,
+
+                    `
+                        <img src="assets/privacy-zuckering-pics/q1/netflixandtakeaway.jpg">
+                        Netflix and Takeaway
+                    `,
+
+                    `
+                        <img src="assets/privacy-zuckering-pics/q2/luxresort.jpg">
+                        Luxury Resort
+                    `,
+
+
+                    `
+                        <img src="assets/privacy-zuckering-pics/q3/tiktoklogo.jpeg">
+                        TikTok
+                    `,
+
+                    `
+                        <img src="assets/privacy-zuckering-pics/q4/sales.jpg">
+                        Sales and offers
+                    `,
+
+                    `
+                        Green
+                    `,
+                    `
+                        <img src="assets/privacy-zuckering-pics/q6/recognition2.jpg">
+                        Recognition
+                    `,
+                    `
+                        <img src="assets/privacy-zuckering-pics/q7/rareexr.jpg">
+                        Rarely
+                    `,
+                    `
+                        HEADLINE 3
+                    `,
+                    `
+                        <img src="assets/privacy-zuckering-pics/q9/tiktoktrendz.jpg">
+                        TikTok Trends
+                    `,
+                    `
+                        DATA 3
+                    `,
+            ]
+
+            let ans4Code = [
+                    `
+                        <img src="assets/privacy-zuckering-pics/q1/partywfriends.jpg">
+                        Party with friends
+                    `,
+
+                    `
+                        <img src="assets/privacy-zuckering-pics/q1/partywfriends.jpg">
+                        Party with friends
+                    `,
+
+                    `
+                        <img src="assets/privacy-zuckering-pics/q2/staycay.jpg">
+                        Staycation
+                    `,
+
+                    `
+                        <img src="assets/privacy-zuckering-pics/q3/youtubelogo.png">
+                        YouTube
+                    `,
+
+                    `
+                        <img src="assets/privacy-zuckering-pics/q4/whenneeded.jpg">
+                        When needed
+                    `,
+
+                    `
+                        Yellow
+                    `,
+                    `
+                        <img src="assets/privacy-zuckering-pics/q6/secure.jpg">
+                        Security and stability
+                    `,
+                    `
+                        <img src="assets/privacy-zuckering-pics/q7/weekexr.jpg">
+                        Weekly
+                    `,
+                    `
+                        HEADLINE 4
+                    `,
+                    `
+                        <img src="assets/privacy-zuckering-pics/q9/vhs.jpg">
+                        VHS
+                    `,
+                    `
+                        DATA 4
+                    `,
+            ]
+
+            const scoringMap = {
+                1: {
+                    1: { impulsivity: 2, adSusceptibility: 1 },
+                    2: { compliance: 2, surveillanceComfort: 1 },
+                    3: { consumerism: 2, impulsivity: 1 },
+                    4: { socialValidation: 2, adSusceptibility: 2 }
+                },
+
+                2: {
+                    1: { impulsivity: 1 },
+                    2: { compliance: 1 },
+                    3: { consumerism: 3, adSusceptibility: 1 },
+                    4: { nostalgia: 2 }
+                },
+
+                3: {
+                    1: { socialValidation: 3 },
+                    2: { surveillanceComfort: 2, compliance: 1 },
+                    3: { impulsivity: 2, adSusceptibility: 3 },
+                    4: { nostalgia: 1 }
+                },
+
+                4: {
+                    1: { impulsivity: 3 },
+                    2: { compliance: 2 },
+                    3: { adSusceptibility: 3, consumerism: 1 },
+                    4: { surveillanceComfort: 1 }
+                },
+
+                5: {
+                    1: { impulsivity: 1 },
+                    2: { compliance: 1 },
+                    3: { consumerism: 1 },
+                    4: { socialValidation: 1 }
+                },
+
+                6: {
+                    1: { socialValidation: 1 },
+                    2: { consumerism: 2 },
+                    3: { socialValidation: 2 },
+                    4: { compliance: 2 }
+                },
+
+                7: {
+                    1: { adSusceptibility: 3 },
+                    2: { compliance: 1 },
+                    3: { surveillanceComfort: 1 },
+                    4: { socialValidation: 2 }
+                },
+
+                8: {
+                    1: { compliance: 2 },
+                    2: { surveillanceComfort: 2 },
+                    3: { impulsivity: 1 },
+                    4: { socialValidation: 1 }
+                },
+
+                9: {
+                    1: { nostalgia: 3 },
+                    2: { impulsivity: 1 },
+                    3: { socialValidation: 2 },
+                    4: { nostalgia: 2 }
+                },
+
+                10: {
+                    1: { surveillanceComfort: 3 },
+                    2: { compliance: 2 },
+                    3: { adSusceptibility: 1 },
+                    4: { surveillanceComfort: -1, compliance: -1 }
+                }
+            };
+
+            let counter = 0;
+
+            function cycleThroughQs(){
+                if (counter < 10){
+                    counter++;
+                document.getElementById("headerText").innerHTML = qArray[counter];
+                document.getElementById("ans1").innerHTML = ans1Code[counter];
+                document.getElementById("ans2").innerHTML = ans2Code[counter];
+                document.getElementById("ans3").innerHTML = ans3Code[counter];
+                document.getElementById("ans4").innerHTML = ans4Code[counter];
+                }else if(counter == 10) {
+                    openPopUp();
+                }
+            }
+
+            function selectAnswer(answerNumber){
+
+                let currentQuestion = counter + 1;
+
+                if(scoringMap[currentQuestion] && scoringMap[currentQuestion][answerNumber]){
+
+                    let effects = scoringMap[currentQuestion][answerNumber];
+
+                    for(let trait in effects){
+
+                        if(playerProfile[trait] === undefined){
+                            playerProfile[trait] = 0;
+                        }
+
+                        playerProfile[trait] += effects[trait];
+                    }
+                }
+
+                console.log(playerProfile);
+
+                cycleThroughQs();
+            }
+
+            function generateDiagnosis(){
+
+                let text = `
+                    <p>Your responses were used to construct a behavioural advertising profile.</p>
+                    <br>
+                    <p style="font-weight: bold;">User IP Adress: </p>
+                    <p id="ipAddress"></p>
+                    <br>
+                `;
+
+                if(playerProfile.adSusceptibility >= 5){
+                    text += `<p>• Highly responsive to urgency marketing, discounts, and emotional sales language.</p>`;
+                }
+
+                if(playerProfile.impulsivity >= 5){
+                    text += `<p>• Likely to make spontaneous online decisions before reviewing terms.</p>`;
+                }
+
+                if(playerProfile.socialValidation >= 4){
+                    text += `<p>• Vulnerable to peer comparison, influencer recommendation, and social trend targeting.</p>`;
+                }
+
+                if(playerProfile.consumerism >= 4){
+                    text += `<p>• Flagged as a strong discretionary spending candidate.</p>`;
+                }
+
+                if(playerProfile.surveillanceComfort >= 4){
+                    text += `<p>• Unlikely to challenge consent requests, cookies, or default privacy permissions.</p>`;
+                }
+
+                if(playerProfile.nostalgia >= 3){
+                    text += `<p>• Responsive to sentimental and memory-triggered campaigns.</p>`;
+                }
+
+                if(playerProfile.compliance >= 4){
+                    text += `<p>• Demonstrates passive agreement behaviour in guided interfaces.</p>`;
+                }
+                text += `
+                    <br>
+                    <div class="card">
+                        <div class="card-body">
+                            <canvas id="profileChart"></canvas>
+                        </div>
+                    </div>
+                    <br>
+                `
+                text += `
+                    <br>
+                    <h2>ADVERTISER CONCLUSION:</h2>
+                    <p>Your online behaviour is highly predictable and commercially exploitable.</p>
+                    <br>
+                    <p><em>None of these questions measured your personality.<br>They measured how easy you are to profile.</em></p>
+                `;
+
+                return text;
+            }
+
+            function buildChart(){
+            
+                const attributes = ["Ad Susceptibility", "Impulsivity", "Social Validation", "Consumerism", "Surveillance Comfort", "Nostalgia", "Compliance"]
+                let dataArray = [playerProfile.adSusceptibility, playerProfile.impulsivity, playerProfile.socialValidation, playerProfile.consumerism, playerProfile.surveillanceComfort, playerProfile.nostalgia, playerProfile.compliance]
+
+                const myChart = new Chart('profileChart', {
+                    type: 'bar',
+                    data: {
+                        labels: attributes,
+                        datasets: [{
+                            label: 'Attribute measure',
+                            backgroundColor: 'blue',
+                            data: dataArray
+                        }]
+                    },
+                    options: {
+                        datasets: {
+                            bar: {
+                                boxWidth: 10,
+                                borderRadius: 5
+                                // circumference: 10
+                            }
+                        },
+                        scales: {
+                            x: {
+                                grid:{
+                                    display: false
+                                }
+                            },
+                            y: {
+                                grid:{
+                                    display: false
+                                }
+                            }
+                        }
+                    }
+                })
+            }
+
+            function openPopUp(){
+                
+                let diagnosisText = generateDiagnosis();
+
+                let newPopUpBg = document.createElement("div");
+                newPopUpBg.setAttribute("id", "pop-up-bg");
+
+                newPopUpBg.innerHTML = `
+                <div class="pop-up">
+                    <h1>Here's what we found</h1>
+                    ${diagnosisText}
+                    <div id="buttonContainer">
+                        <button id="homeButton" onclick="goToHome()">Homescreen</button>
+                    </div>
+                </div>
+            `;
+
+                document.getElementsByTagName('body')[0].appendChild(newPopUpBg);
+
+                buildChart();
+
+                setTimeout(function() {
+                    fetch("https://api.ipify.org/?format=json")
+                        .then(response => response.json())
+                        .then(data => {
+                            document.getElementById("ipAddress").textContent = data.ip;
+                        })
+                        .catch(error => {
+                            console.error("Error fetching IP address:", error);
+                        });
+                    }, 0);
+        
+                
+                console.log("Pop up open!")
+            }
+            function closePopUp(){
+                console.log("Pop up closed")
+                let popUp = document.getElementById("pop-up-bg");
+                popUp.remove();
+
+                return null;
+            }
+            function timedClosePopUp(){
+                let popUp = document.getElementById("pop-up-bg")
+                popUp.style.animation = "fadeOut ease 0.5s";
+                setTimeout(closePopUp, 500);
+            }
+
+            function goToHome(){
+                location.href = "/index.html";
+            }
+        </script>
+    </body>
+</html>

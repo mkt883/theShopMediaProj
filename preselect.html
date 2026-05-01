@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script type="text/javascript" src="script.js"></script>
+        <style>
+            body{background: #312314; color: white; text-align: center; overflow: hidden; font-family: sans-serif;}
+
+            #titleCardScreen {
+                background: black;
+                color: green;
+                position: absolute;
+                width: 100vw;
+                height: 100vh;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 80px;
+                text-align: center;
+                opacity: .8;
+                z-index: 10;
+
+                animation: burstIn 1s ease;
+            }
+
+            @keyframes burstIn {
+                0% {opacity: 0;}
+                50% {opacity: 0;}
+                100% {opacity: .8;};
+            }
+            @keyframes fadeTitleOut {
+                0% {opacity: .8;}
+                100% {opacity: 0;};
+            }
+            #gamePlayScreen{
+                display: flex; 
+                justify-content: center; 
+                align-items: center;
+                background: auto;
+                height: 100%;
+                width: 100%;
+                flex-direction: column;
+            }
+
+            @keyframes listIn {
+                0% {opacity: 0;}
+                50% {opacity: 0;}
+                100% {opacity: 1;};
+            }
+            @keyframes listOut {
+                0% {opacity: 1;}
+                100% {opacity: 0;};
+            }
+
+            #miniGameDiv {
+                background-image: url('assets/preselection/preselect-bg.png');
+                width: 500px;
+                height: 500px;
+                position:relative;
+                overflow: hidden;
+                /* min-width: 500px;
+                min-height: 500px; */
+                /* background: teal; */
+            }
+            #cart{
+                /* background: red; */
+                background-image: url('assets/preselection/preselect-trolley.png');
+                background-size: contain;
+                width: 75px;
+                height: 75px;
+                position: absolute;
+                pointer-events: none;  
+                transform: translateY(400px); 
+                transition: all .10s ease
+            }
+
+            .item{
+                /* background-color: green; */
+                height: 100px;
+                width: 100px;
+                border-radius: 20px;
+                /* transform: auto; */
+                top: 0;
+                position: absolute;
+                animation: fallItems 1.5s ;
+            }
+
+            @keyframes fallItems {
+                0% {top: 0;}
+                100% {top: 500px;}
+            }
+
+            /*          POP UP STYLING            */
+            #pop-up-bg{
+                height: 100%;
+                width: 100%;
+
+                display: flex;
+                z-index: 100;
+                position: fixed;
+
+                text-align: center;
+                justify-content: center;
+                align-items: center;
+
+                /* background: rgba(0, 0, 0, 0.5); */
+                opacity: 1;
+
+                animation: fadeIn ease 0.5s;
+
+            }
+
+            @keyframes popIn {
+                0% {transform:scale(0);}
+                100% {transform:scale(1);};
+            }
+            @keyframes popOut {
+                0% {transform:scale(1);};
+                100% {transform:scale(0);}
+            }
+
+            .pop-up{
+                text-align: left;
+                display: flex;
+                flex-direction: column;
+                height: 300px;
+                width: 390px;
+                color: black;
+                background: #DACDC6;
+                padding: 10px 20px;
+                border-radius: 2px;
+                filter: drop-shadow(10px 10px 4px rgba(0, 0, 0, 0.082));
+                overflow-y: scroll;
+                overflow-x: hidden;
+
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            }
+
+
+
+        </style>
+    </head>
+    <body>
+        <div id="titleCardScreen">
+            <h1>PRESELECTION</h1>
+        </div>
+        <div id="gamePlayScreen">
+            <div id="topBanner">
+                <div class="timer">1:00</div>
+                <h3 style="color: white; font-size: 30px;">SHOP CLOSING SOON</h3>
+            </div>
+            <div id="miniGameDiv">
+                <div id="cart"></div>
+            </div>
+            <div style="display: flex; width: 500px; height: auto; justify-content: left;">
+                <p id="pointCount"></p>
+            </div>
+        </div>
+        <!-- <h1 style="color: grey; font-size: 50px;">pre selected</h1> -->
+        
+
+        <script>
+            window.onload = function () {
+                setTimeout(fadeawayTitleCard, 4000)
+            }
+
+            // let itemsArray = ['assets/preselection/preselect-item-dumbbell.png','assets/preselection/preselect-item-hoodie.png','assets/preselection/preselect-item-ps5.png']
+            // let itemsInnerTextArray = [`<div class="pop-up-style-2">
+            //             <h2 style="margin-left: 3px;">You look like you're ready for the gym!</h2>
+            //             <img src="assets/preselection/preselect-placeholder-gym.jpeg" height="150px">
+
+            //             <div class="pop-up">
+            //                 <input type="checkbox" class="checkboxVar" checked>
+            //                 <p>1 month membership</p>
+            //                 <input type="checkbox" class="checkboxVar">
+            //                 <p>5 month membership</p>
+            //                 <input type="checkbox" class="checkboxVar" checked>
+            //                 <p>1 year membership</p>
+
+            //                 <div id="buttonContainer">
+            //                     <button id="noButton" onclick="closePopUp()">Buy</button>
+            //                 </div>
+            //             </div>
+            //         </div>`,
+
+            //         `<div class="pop-up-style-2">
+            //             <h2 style="margin-left: 3px;">Stay looking fresh</h2>
+            //             <img src="assets/preselection/preselect-placeholder-ropa.jpg" height="150px">
+
+            //             <div class="pop-up">
+            //                 <input type="checkbox" class="checkboxVar" value="Bike" checked>
+            //                 <p>1 month membership</p>
+            //                 <input type="checkbox" class="checkboxVar" value="Car">
+            //                 <p>5 month membership</p>
+            //                 <input type="checkbox" class="checkboxVar" value="Boat" checked>
+            //                 <p>1 year membership</p>
+
+            //                 <div id="buttonContainer">
+            //                     <button id="noButton" onclick="closePopUp()">Buy</button>
+            //                 </div>
+            //             </div>
+            //         </div>`,
+
+            //         `<div class="pop-up-style-2">
+            //             <h2 style="margin-left: 3px;">Get ready to game!</h2>
+            //             <img src="assets/preselection/preselect-placeholder-ps5.jpeg" height="150px">
+
+            //             <div class="pop-up">
+            //                 <input type="checkbox" class="checkboxVar" >
+            //                 <p>Get gaming pass included for 1 month/p>
+            //                 <input type="checkbox" class="checkboxVar" checked>
+            //                 <p>Extra controller</p>
+            //                 <input type="checkbox" class="checkboxVar" checked>
+            //                 <p>2 games and 1 year warranty</p>
+
+            //                 <div id="buttonContainer">
+            //                     <button id="noButton" onclick="closePopUp()">Buy</button>
+            //                 </div>
+            //             </div>
+            //         </div>`
+            //     ]
+
+            let itemDatabase = [
+            {
+                img: 'assets/preselection/preselect-item-dumbbell.png',
+                popup: `<div class="pop-up-style-2">
+                            <h2 style="margin-left: 3px;">You look like you're ready for the gym!</h2>
+                            <img src="assets/preselection/preselect-placeholder-gym.jpeg" height="150px">
+
+                            <div class="pop-up">
+                                <input type="checkbox" class="checkboxVar" checked>
+                                <p>1 month membership</p>
+                                <input type="checkbox" class="checkboxVar">
+                                <p>5 month membership</p>
+                                <input type="checkbox" class="checkboxVar" checked>
+                                <p>1 year membership</p>
+
+                                <div id="buttonContainer">
+                                    <button onclick="closePopUp()">Buy</button>
+                                </div>
+                            </div>
+                        </div>`
+            },
+
+            {
+                img: 'assets/preselection/preselect-item-hoodie.png',
+                popup: `<div class="pop-up-style-2">
+                            <h2 style="margin-left: 3px;">Stay looking fresh</h2>
+                            <img src="assets/preselection/preselect-placeholder-ropa.jpg" height="150px">
+
+                            <div class="pop-up">
+                                <input type="checkbox" class="checkboxVar" checked>
+                                <p>Basic hoodie</p>
+                                <input type="checkbox" class="checkboxVar">
+                                <p>Premium hoodie</p>
+                                <input type="checkbox" class="checkboxVar" checked>
+                                <p>2 for 1 bundle</p>
+
+                                <div id="buttonContainer">
+                                    <button onclick="closePopUp()">Buy</button>
+                                </div>
+                            </div>
+                        </div>`
+            },
+
+            {
+                img: 'assets/preselection/preselect-item-ps5.png',
+                popup: `<div class="pop-up-style-2">
+                            <h2 style="margin-left: 3px;">Get ready to game!</h2>
+                            <img src="assets/preselection/preselect-placeholder-ps5.jpeg" height="150px">
+
+                            <div class="pop-up">
+                                <input type="checkbox" class="checkboxVar">
+                                <p>Gaming pass included for 1 month</p>
+                                <input type="checkbox" class="checkboxVar" checked>
+                                <p>Extra controller</p>
+                                <input type="checkbox" class="checkboxVar" checked>
+                                <p>2 games + 1 year warranty</p>
+
+                                <div id="buttonContainer">
+                                    <button onclick="closePopUp()">Buy</button>
+                                </div>
+                            </div>
+                        </div>`
+            }
+        ];
+
+            function openPopUp(element){
+                let newPopUpBg = document.createElement("div");
+                newPopUpBg.setAttribute("id", "pop-up-bg");
+                let randomNum = Math.floor(Math.random() * 3);
+
+                // document.querySelectorAll(".item").style.backgroundImage = `url(${itemsArray[randomNum]})`
+
+                // newPopUpBg.innerHTML = itemsInnerTextArray[randomNum];
+
+                newPopUpBg.innerHTML = element.dataset.popup;
+
+                document.getElementsByTagName('body')[0].prepend(newPopUpBg);
+                
+                console.log("Pop up open!")
+
+                element.remove(this)
+            }
+
+            let seconds = 70
+
+            function updateTimer(){
+                const timers = document.querySelectorAll('.timer')
+
+                const mins = String(Math.floor(seconds / 60)).padStart(2,'0')
+                const secs = String(seconds % 60).padStart(2,'0')
+
+                const timeText = `${mins}:${secs}`
+
+                timers.forEach(timer => {
+                    timer.textContent = timeText
+                })
+
+                if(seconds > 0) {
+                    seconds--;
+                }
+
+                if(seconds == 0){
+                    // failScreen();
+                }
+                
+            }
+            let cart = document.getElementById("cart");
+            window.addEventListener("mousemove", (e)=>{
+                let gameCont = document.getElementById("miniGameDiv").getBoundingClientRect();
+
+                let x = e.clientX - gameCont.left - 37.5;
+                let y = e.clientY - gameCont.top - 37.5;
+
+                cart.style.transform = `translate(${x}px, 375px)`
+                cart.style.opacity = 1;
+            })
+
+            window.addEventListener("mouseout", (e)=>{
+                cart.style.opacity = 0;
+            })
+
+            function checkCollision(item, watchInterval){
+
+                // item = document.querySelectorAll(".item");
+
+                let cartBox = cart.getBoundingClientRect()
+                let itemBox = item.getBoundingClientRect()
+
+                // let itemCountText = document.getElementById("itemCount")
+                // // let itemCount = 0;
+
+                if(
+                    itemBox.right > cartBox.left &&
+                    itemBox.left < cartBox.right &&
+                    itemBox.bottom > cartBox.top &&
+                    itemBox.top < cartBox.bottom
+                ){
+                    console.log("hit")
+                    clearInterval(watchInterval);
+                    item.remove();
+                    openPopUp(item);
+                    // itemCountkext.innerHTML = 'Items: '+itemCount
+
+                }
+            }
+
+            function createItem(){
+                let newItem = document.createElement("div");
+                let randomNum = Math.floor(Math.random() * 499);
+
+                let randomIndex = Math.floor(Math.random() * itemDatabase.length);
+                let chosenItem = itemDatabase[randomIndex];
+
+                newItem.setAttribute("class", "item");
+
+                newItem.style.left = randomNum + "px";
+                newItem.style.top = "0px";
+
+                newItem.style.backgroundImage = `url(${chosenItem.img})`;
+                newItem.style.backgroundSize = "contain";
+                newItem.style.backgroundRepeat = "no-repeat";
+                newItem.style.backgroundPosition = "center";
+                newItem.style.backgroundColor = "transparent";
+
+                newItem.dataset.popup = chosenItem.popup;
+
+                document.getElementById('miniGameDiv').prepend(newItem);
+
+                let watchInterval = setInterval(() => {
+                    checkCollision(newItem, watchInterval)
+                }, 20)
+                
+                newItem.addEventListener("animationend",() => {
+                    clearInterval(watchInterval);
+                    if(newItem.parentNode){
+                        newItem.remove();
+                    }
+                });
+                
+            }
+
+            updateTimer();
+            setInterval(updateTimer, 1000);
+
+            let itemSpawner = setInterval(() => {
+                if (seconds > 0 && seconds < 61){
+                    createItem();
+                }
+            }, 1000)
+
+            // if (seconds > 0){
+            //     setInterval(createItem, 2500)
+            // }
+
+
+            let pointsVal = 0;
+
+            function updatePoints(){
+                let pointCount = document.getElementById("pointCount");
+
+                pointCount.innerText = `Score: ${pointsVal}`;
+            }
+
+            updatePoints();
+
+
+            function closePopUp(){
+                let checkBoxEls = document.querySelectorAll(".checkboxVar");
+
+                let checkedCount = 0;
+
+                checkBoxEls.forEach(box => {
+                    if(box.checked){
+                        checkedCount++;
+                    }
+                });
+
+                if(checkedCount > 0){
+                    pointsVal--;
+                }else{
+                    pointsVal++;
+                }
+
+                updatePoints();
+
+                console.log("Pop up closed")
+                let popUp = document.getElementById("pop-up-bg");
+                popUp.remove();
+
+                return null;
+            }
+            function timedClosePopUp(){
+                let popUp = document.getElementById("pop-up-bg")
+                popUp.style.animation = "fadeOut ease 0.5s";
+                setTimeout(closePopUp, 500);
+            }
+
+            checkCollision();
+
+        </script>
+    </body>
+</html>

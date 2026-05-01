@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script type="text/javascript" src="script.js"></script>
+        <style>
+            body {
+                background: black;
+                color: white;
+                /* margin: 0; */
+                font-family: serif;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                overflow: hidden;
+            }
+
+            #titleCardScreen {
+                background: black;
+                color: #805748;
+                position: absolute;
+                width: 100vw;
+                height: 100vh;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 100px;
+                text-align: center;
+                opacity: .8;
+
+                animation: burstIn 1s ease;
+            }
+
+            @keyframes burstIn {
+                0% {opacity: 0;}
+                50% {opacity: 0;}
+                100% {opacity: .8;};
+            }
+            @keyframes fadeTitleOut {
+                0% {opacity: .8;}
+                100% {opacity: 0;};
+            }
+
+            #sceneContainer{
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 360px;
+                width: 640px;
+                /* background: grey; */
+                transition: 0.1s ease;
+            }
+
+            #outsideOfMotel {
+                height: 100%;
+                width: auto;
+                transition: 0.1s ease;
+            }
+            #front-desk{
+                height: 85vh;
+                width: auto;
+                border-radius: 50px;
+            }
+            #outsideOfMotel:hover{
+                cursor: pointer;
+                transform: scale(1.01);
+            }
+
+            #centralCol{
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+            }
+
+            /*          POP UP STYLING            */
+            #pop-up-bg{
+                height: 100vh;
+                width: 100vw;
+
+                display: flex;
+                z-index: 100;
+                position: fixed;
+                /* top: 0; */
+
+                text-align: center;
+                justify-content: center;
+                align-items: center;
+
+                background: rgba(0, 0, 0, 0.5);
+                opacity: 1;
+
+                animation: fadeIn ease 0.5s;
+
+            }
+            #pop-up-bg2{
+                height: 100vh;
+                width: 100vw;
+
+                display: flex;
+                z-index: 100;
+                position: fixed;
+                /* top: 0; */
+
+                text-align: center;
+                justify-content: center;
+                align-items: center;
+
+                background: rgba(0, 0, 0, 0.5);
+                opacity: 1;
+
+                animation: fadeIn ease 0.5s;
+
+            }
+
+            @keyframes fadeIn {
+                0% {opacity: 0;}
+                100% {opacity: 1;};
+            }
+            @keyframes fadeTitleOut {
+                0% {opacity: 1;}
+                100% {opacity: 0;};
+            }
+
+            @keyframes popUpStaggerfadeIn {
+                0% {opacity: 0;}
+                75% {opacity: 0;}
+                100% {opacity: 1;};
+            }
+
+            .pop-up{
+                display: flex;
+                flex-direction: column;
+                height: 100%;
+                width: 780px;
+                color: White;
+                /* background: white; */
+                padding: 20px 40px;
+                border-radius: 25px;
+                filter: drop-shadow(10px 10px 4px rgba(0, 0, 0, 0.082));
+
+                justify-content: center;
+                align-items: center;
+
+                overflow-y: scroll;
+                font-family: serif;
+            }
+            .pop-up img {
+                max-height: 600px;
+            }
+
+            .top-bot-borders{
+                border-top: solid 1.5px #11111120;
+                padding-top: 20px;
+            }
+
+            /* BUTTONS */
+            #yesButton{
+                background: #7e5005;
+                color: rgb(251, 180, 67);
+                border: none;
+                border-radius: 2px;
+                padding: 12px 30px;
+                font-size: 18px;
+                margin: auto 15px;
+                cursor: pointer;
+                transition: 0.3s;
+                font-family: serif;
+            }
+            #yesButton:hover{
+                background: #c17b0a;
+                transform:scale(1.05)
+            }
+            #noButton{
+                background: #797979;
+                color: white;
+                border: none;
+                border-radius: 2px;
+                padding: 12px 30px;
+                font-size: 18px;
+                margin-top: 15px;
+                cursor: pointer;
+                transition: 0.3s;
+                font-family: serif;
+            }
+            #noButton:hover{
+                background: #b7b7b7;
+                transform:scale(1.05)
+            }
+
+            #imgStyling{
+                background: green;
+                height: 100px;
+                width: 70px;
+            }
+
+            /* END SCREEN BUTTON STYLING */
+            #homescreenBtn{
+                background: #7e5005;
+                color: white;
+                border: none;
+                border-radius: 2px;
+                padding: 12px 30px;
+                font-size: 18px;
+                margin-top: 15px;
+                cursor: pointer;
+                transition: 0.3s;
+                font-family: serif;
+            }
+            #homescreenBtn:hover{
+                background: #c17b0a;
+                transform:scale(1.05)
+            }
+
+            #rainOverlay{
+            position: absolute;
+            z-index: 20;
+            pointer-events: none;
+            height: 100vh;
+            width: 100vw;
+            mix-blend-mode: screen;
+            opacity: 0.4;
+        }
+
+        #door{
+            height: 300px;
+        }
+        #door:hover{
+            /* transform:scale(1.1); */
+            cursor: pointer;
+        }
+
+        #manager{
+            transform: translate(320px, -60px);
+            max-height: 80vh;
+            position: fixed;
+        }
+        #actualDesk{
+            position: fixed;
+            transform: translate(308px, 270px);
+            z-index: 30;
+            height: 28.2vh;
+            border-radius: 0 0 50px 0;
+        }
+
+        #roomKey{
+            position: fixed;
+            transform: rotate(-23deg) translateX(-325px) translateY(-150px);
+            /* transition: ease .1s; */
+            opacity: auto;
+            animation: keyFlyIn 1s ease;
+        }
+        #roomKey:hover{
+            /* transform:scale(1.1); */
+            cursor: pointer;
+        }
+
+        @keyframes keyFlyIn {
+            0%{transform: translateY(0px); opacity: 0};
+            100%{transform: translateY(-150px);opacity: 1};
+        }
+
+        #sc-id{
+            height: 85vh;
+            width: auto;
+            border-radius: 50px;
+            animation: auto;
+            opacity: auto;
+        }
+        #sc-id:hover{
+            cursor:pointer;
+        }
+
+        </style>
+    </head>
+    <body>
+        <div id="titleCardScreen"> 
+            <h1>ROACH MOTEL</h1>
+        </div> 
+        <img id="rainOverlay" src="assets/roach-motel/rain.gif">
+        <div id="screenDiv">
+            <div id="leftCol"></div>
+            <div id="centralCol">
+                    <div id="sceneContainer">
+                        <img id="outsideOfMotel" onclick="intoMotel()" src="assets/roach-motel/motel.png">
+                    </div>
+            </div>
+            <div id="rightCol"></div>
+        </div>
+        
+        <script>
+
+            window.onload = function () {
+                setTimeout(fadeawayTitleCard, 4000)
+            }
+
+            let counter = 0;
+
+            function counterIncrease(){
+                if (counter < 9){
+                    counter++;
+                }
+                console.log(counter);
+                // goThroughBGs();
+            }
+            let q1 = `
+                <div class="pop-up">
+                    <h1>No don't leave!</h1>
+                    <img src="assets/roach-motel/RoachMotel_Manager.png">
+                    <p>We'd be sad to see you go.<br> We worked really hard to personalize this for you.</p>
+                    <div id="buttonContainer">
+                        <button id="yesButton" onclick="closePopUp()">Yes I want to leave</button>
+                        <button id="noButton" onclick="closePopUp()">No thanks, I'll stay some more</button>
+                    </div>
+                </div>
+            `
+            let q2 = `
+                <div class="pop-up">
+                    <h1>Wait!</h1>
+                    <img src="assets/roach-motel/RoachMotel_Manager.png" width="400px">
+                    <p>You’ll lose all your saved preferences and history here if you cancel your stay now!</p>
+                    <div id="buttonContainer">
+                        <button id="yesButton" onclick="closePopUp()">That's fine</button>
+                        <button id="noButton" onclick="closePopUp()">Oh no!</button>
+                    </div>
+                </div>
+            `
+            let q3 = `
+                <div class="pop-up">
+                    <h1>Not even for the discount? :(</h1>
+                    <img src="assets/roach-motel/RoachMotel_Manager.png" width="400px">
+                    <p>You’re currently saving 40% compared to new members—don’t lose that!</p>
+                    <div id="buttonContainer">
+                        <button id="yesButton" onclick="closePopUp()">That's nice...</button>
+                        <button id="noButton" onclick="closePopUp()">You're right, wouldn't want to miss out</button>
+                    </div>
+                </div>
+            `
+            let q4 = `
+                <div class="pop-up">
+                    <h1>Consider this..</h1>
+                    <img src="assets/roach-motel/RoachMotel_Manager.png" width="400px">
+                    <p>Your benefits will expire immediately if you cancel now.</p>
+                    <div id="buttonContainer">
+                        <button id="yesButton" onclick="closePopUp()">I'm fine with that</button>
+                        <button id="noButton" onclick="closePopUp()">NOOOOOO</button>
+                    </div>
+                </div>
+            `
+            let q5 = `
+                <div class="pop-up">
+                    <h1>We have an offer for you!</h1>
+                    <img src="assets/roach-motel/RoachMotel_Manager.png" width="400px">
+                    <p>Wait! Stay and get 1 month FREE—no commitment.</p>
+                    <div id="buttonContainer">
+                        <button id="yesButton" onclick="closePopUp()">I'm interested</button>
+                        <button id="noButton" onclick="closePopUp()">No, let me leave</button>
+                    </div>
+                </div>
+            `
+            let q6 = `
+                <div class="pop-up">
+                    <h1>Hold on now...</h1>
+                    <img src="assets/roach-motel/RoachMotel_Manager.png" width="400px">
+                    <p>Thousands of users like you are choosing to stay.</p>
+                    <div id="buttonContainer">
+                        <button id="yesButton" onclick="closePopUp()">They got the right idea!</button>
+                        <button id="noButton" onclick="closePopUp()">I do not care</button>
+                    </div>
+                </div>
+            `
+            let q7 = `
+                <div class="pop-up">
+                    <h1>Alright..</h1>
+                    <img src="assets/roach-motel/RoachMotel_Manager.png" width="400px">
+                    <p>Click continue to confirm cancellation request (account remains active).</p>
+                    <div id="buttonContainer">
+                        <button id="yesButton" onclick="closePopUp()">Confirm cancellation</button>
+                        <button id="noButton" onclick="closePopUp()">What?</button>
+                    </div>
+                </div>
+            `
+
+            let q8 = `
+                <div class="pop-up">
+                    <h1>Before you go</h1>
+                    <img src="assets/roach-motel/RoachMotel_Manager.png" width="400px">
+                    <p>Please tell us why you’re leaving…</p>
+                    <div id="buttonContainer">
+                        <textarea></textarea>
+                        <button id="yesButton" onclick="closePopUp()">Submit</button>
+                    </div>
+                </div>
+            `
+
+            let q9 = `
+                <div class="pop-up">
+                    <h1>You have a great deal..</h1>
+                    <img src="assets/roach-motel/RoachMotel_Manager.png" width="400px">
+                    <p>You may not be able to rejoin at your current price.</p>
+                    <div id="buttonContainer">
+                        <button id="yesButton" onclick="closePopUp()">Maybe I should stay...</button>
+                        <button id="noButton" onclick="closePopUp()">I'm never coming back</button>
+                    </div>
+                </div>
+            `
+
+            let q10 = `
+                <div class="pop-up">
+                    <h1>Cancelation</h1>
+                    <img src="assets/roach-motel/RoachMotel_Manager.png" width="400px">
+                    <p>Your cancellation request will be processed in 3–5 business days.</p>
+                    <div id="buttonContainer">
+                        <button id="yesButton" onclick="closePopUp()">You've convinced me to stay...</button>
+                        <button id="noButton" onclick="escapeMotel()">Fine.</button>
+                    </div>
+                </div>
+            `
+
+            let popUpsArray = [q1, q2, q3, q4, q5, q6, q7, q8, q9, q10]
+            let scene = document.getElementById("sceneContainer");
+            
+            function escapeMotel(){
+                let popUp = document.getElementById("pop-up-bg");
+                popUp.remove();
+
+                let homeButton = document.createElement("button")
+                homeButton.setAttribute("id", "homescreenBtn")
+                homeButton.setAttribute("onclick", "goToHome()")
+                homeButton.innerHTML = 'Homepage'
+
+                let newPopUpBg = document.createElement("div");
+                    newPopUpBg.setAttribute("id", "pop-up-bg2");
+
+                    newPopUpBg.innerHTML = `
+                        <div class="pop-up">
+                            <h1>You escaped</h1>
+                            <iframe width="420" height="236"
+                                src="https://youtu.be/qAVGDMipP2U?si=kgDpNkXpzSOmJhkG">
+                            </iframe>
+                            <p>Watch this to understand in more depth how the roach motel works</p>
+                            <div id="buttonContainer">
+                                <button id="noButton" onclick="goToHome()">Homepage</button>
+                            </div>
+                    </div>
+                    `
+
+                    document.getElementsByTagName('body')[0].appendChild(newPopUpBg);
+                    
+                    console.log("Pop up open!")
+
+                // let homeButton = document.getElementById("homescreenBtn")
+                    document.getElementById('pop-up-bg').appendChild(homeButton);
+                    // homeButton.style.pointerEvents = "auto"
+                    // homeButton.style.opacity = "1"
+            }
+
+            function openPopUp(){
+                // document.getElementById("doorText").remove()
+                if(counter < 10){
+                    // increaseDoorSize();
+                    let newPopUpBg = document.createElement("div");
+                    newPopUpBg.setAttribute("id", "pop-up-bg");
+
+                    newPopUpBg.innerHTML = popUpsArray[counter]
+
+                    document.getElementsByTagName('body')[0].appendChild(newPopUpBg);
+                    
+                    console.log("Pop up open!")
+                }
+                if(counter === 10 ){
+                    showHomeButton();
+                }
+            }
+            function closePopUp(){
+                console.log("Pop up closed")
+                let popUp = document.getElementById("pop-up-bg");
+                popUp.remove();
+
+                return null;
+            }
+            function timedClosePopUp(){
+                let popUp = document.getElementById("pop-up-bg")
+                popUp.style.animation = "fadeOut ease 0.5s";
+                setTimeout(closePopUp, 500);
+            }
+
+            function intoMotel() {
+                document.getElementById("rainOverlay").remove();
+                scene.style.flexDirection = "column"
+                document.querySelectorAll("sceneContainer img").height = '100%'
+                scene.innerHTML = 
+                `
+                <p> Please take your key and make yourself comfortable!</p>
+                <!-- <img id="actualDesk" src="assets/roach-motel/RM_FrontDesk.png">
+                <img id="manager" src="assets/roach-motel/RoachMotel_Manager.png"> -->
+
+                <img onclick="toDoorScene()" id="roomKey" src="assets/roach-motel/RM_RoomKey.png">
+                <img id="front-desk" src="assets/roach-motel/RoachMotel_Sc2_ComJefe.png">
+                `
+            }
+
+            function toDoorScene(){
+                scene.style.flexDirection = "column"
+                scene.innerHTML = 
+                `
+                <p>You changed your mind and you wan't to leave</p>
+                <!-- <img id="actualDesk" src="assets/roach-motel/RM_FrontDesk.png">
+                <img id="manager" src="assets/roach-motel/RoachMotel_Manager.png"> -->
+
+                <img id="sc-id" onclick="orderEvents()" src="assets/roach-motel/RM_SC2_InRoom.png">
+                `
+            }
+
+            function goThroughBGs(){
+                let popUp = document.getElementById("pop-up-bg");
+                let imgScene = document.getElementById("sc-id");
+                let arrayOfSc = ['assets/roach-motel/RM_SC2_InRoom.png', 'assets/roach-motel/RM_SC2_DoorOpen_f2.png', 'assets/roach-motel/RM_SC2_DoorOpen_f3.png', 'assets/roach-motel/RM_SC3_Hallway.png', 'assets/roach-motel/RM_SC3_Hallway_f2.png', 'assets/roach-motel/RM_SC3_Hallway_f3.png', 'assets/roach-motel/RM_SC3_Hallway_f4.png', 'assets/roach-motel/RM_SC4_Lobby.png', 'assets/roach-motel/RM_SC4_Lobby_f2.png', 'assets/roach-motel/RM_SC4_Lobby_f3.png'];
+
+                if(counter <10){
+                    imgScene.src=arrayOfSc[counter]
+                }else if (counter >= 10){
+                    imgScene.src="assets/roach-motel/RM_SC4_Lobby_f3.png"
+                }
+
+                if (counter == 3 || counter == 7){
+                    popUp.style.animation = "popUpStaggerfadeIn 4s ease"
+                    imgScene.style.animation = "fadeIn 4s ease"
+                }else{
+                    imgScene.style.animation = "auto"
+                }
+            }
+
+            let scaleNum = 300;
+
+            // function increaseDoorSize(){
+            //     // document.getElementById("sceneContainer img").style.height = 100%
+            //     let door = document.getElementById("door")
+            //     scaleNum*=1.1;
+            //     door.style.height = scaleNum+"px";
+            //     // document.getElementById("sceneContainer img").style.transform = "scale("+scaleNum+")";
+
+            // }
+
+            function orderEvents(){
+                openPopUp();
+                goThroughBGs();
+                counterIncrease();
+            }
+
+            function goToHome(){
+                location.href = "/index.html";
+            }
+
+        </script>
+    </body>
+</html>

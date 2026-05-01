@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script type="text/javascript" src="script.js"></script>
+        <style>
+            body{background: black; color: white; text-align: center;}
+
+            #titleCardScreen {
+                background: black;
+                color: purple;
+                position: absolute;
+                width: 100vw;
+                height: 100vh;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 100px;
+                text-align: center;
+                opacity: .8;
+
+                animation: burstIn 1s ease;
+            }
+
+            @keyframes burstIn {
+                0% {opacity: 0;}
+                50% {opacity: 0;}
+                100% {opacity: .8;};
+            }
+            @keyframes fadeTitleOut {
+                0% {opacity: .8;}
+                100% {opacity: 0;};
+            }
+        </style>
+    </head>
+    <body>
+        <div id="titleCardScreen">
+            <h1>SUNK COST FALLACY</h1>
+        </div>
+        <h1 style="color: grey; font-size: 50px;">SUNK COST EXPLOITATION</h1>
+
+        <script>
+            window.onload = function () {
+                setTimeout(fadeawayTitleCard, 4000)
+            }
+        </script>
+    </body>
+</html>

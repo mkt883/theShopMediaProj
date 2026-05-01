@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script type="text/javascript" src="script.js"></script>
+        <style>
+            *{
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            body{
+                width: 100%;
+                height: 100vh;
+                background: #000;
+                color: white;
+                text-align: center;
+                margin: 0;
+                overflow: hidden;
+            }
+
+            /* marquee {
+                height: 100vh;
+            } */
+
+            #titleCardScreen {
+                background: black;
+                color: red;
+                position: absolute;
+                width: 100vw;
+                height: 100vh;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 100px;
+                text-align: center;
+                opacity: .8;
+                z-index: 10;
+
+                animation: burstIn 1s ease;
+            }
+
+            @keyframes burstIn {
+                0% {opacity: 0;}
+                50% {opacity: 0;}
+                100% {opacity: .8;};
+            }
+            @keyframes fadeTitleOut {
+                0% {opacity: .8;}
+                100% {opacity: 0;};
+            }
+
+            #bounceArea {
+                position: relative;
+                width: 100vw;
+                height: calc(100vh - 100px); /* adjust to banner height */
+                overflow: hidden;
+            }
+            #movingItems{
+                /* transform: scale(0.5); */
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                position: absolute;
+                top: 0;
+                left: 0;
+            }
+            #movingItems img {
+                height: auto;
+                width: 75px;
+            }
+            #precio{
+                font-size: 25px;
+            }
+            #movingItems:hover{
+                cursor: grab;
+            }
+            #movingItems:active{
+                cursor: grabbing;
+            }
+
+            #topBanner{
+                background: red;
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                align-items: center;
+                padding: 20px;
+            }
+
+            .timer{
+                margin: auto 80px;
+                font-size: 30px;
+            }
+
+            /*          POP UP STYLING            */
+            #pop-up-bg{
+                height: 100%;
+                width: 100%;
+
+                display: flex;
+                z-index: 100;
+                position: fixed;
+                top: 0;
+
+                justify-content: center;
+                align-items: center;
+
+                background: rgba(0, 0, 0, 0.5);
+                opacity: 1;
+
+                animation: fadeIn ease 0.5s;
+
+            }
+
+            @keyframes fadeIn {
+                0% {opacity: 0;}
+                100% {opacity: 1;};
+            }
+
+            .pop-up{
+                height: 600px;
+                width: 780px;
+                color: black;
+                background: white;
+                padding: 20px 40px;
+                border-radius: 25px;
+                filter: drop-shadow(10px 10px 4px rgba(0, 0, 0, 0.082));
+
+                overflow-y: scroll;
+                font-family: 'Gill Sans', sans-serif;
+            }
+
+            .top-bot-borders{
+                border-top: solid 1.5px #11111120;
+                padding-top: 20px;
+            }
+
+            /* END SCREEN BUTTON STYLING */
+            .homescreenBtn{
+                background: #00c853;
+                color: white;
+                border: none;
+                border-radius: 20px;
+                padding: 12px 30px;
+                font-size: 18px;
+                margin-top: 15px;
+                cursor: pointer;
+                transition: 0.3s;
+            }
+            .homescreenBtn:hover{
+                background: #03e661;
+                transform:scale(1.05)
+            }
+            
+        </style>
+    </head>
+    <body>
+        <div id="titleCardScreen">
+            <h1>FAKE URGENCY</h1>
+        </div>
+        <div id="topBanner">
+            <div class="timer">0:34</div>
+            <h1 style="color: white; font-size: 50px;">!!   SALE NOW   !!</h1>
+            <div class="timer">0:34</div>
+        </div>
+        <!-- <marquee behavior="alternate" scrollamount="30">
+            <marquee behavior="alternate" scrollamount="30" direction="down">
+                <div id="movingItems">
+                    <img src="assets/fake-urgency/fu_tshirt.png">
+                    <p id="precio">£1.49</p>
+                </div>
+            </marquee>
+        </marquee> -->
+
+        <div id="bounceArea">
+            <div onclick="boughtShirt()" id="movingItems">
+                <img src="assets/fake-urgency/fu_tshirt.png">
+                <p id="precio">£1.49</p>
+            </div>
+        </div>
+        <script>
+            window.onload = function () {
+                setTimeout(fadeawayTitleCard, 4000)
+            }
+
+            let itemPrice = 34.99;
+            let seconds = 34
+            let moveSpeed = 1;
+
+            function updateTimer(){
+                const timers = document.querySelectorAll('.timer')
+
+                const mins = String(Math.floor(seconds / 60)).padStart(2,'0')
+                const secs = String(seconds % 60).padStart(2,'0')
+
+                const timeText = `${mins}:${secs}`
+
+                timers.forEach(timer => {
+                    timer.textContent = timeText
+                })
+
+                if(seconds > 0) {
+                    seconds--;
+                }
+                
+                if(seconds < 30){
+                    moveSpeed+=1.5;
+                    itemPrice= itemPrice*0.93;
+                }
+
+                if(seconds > 0 && seconds < 5){
+                    moveSpeed = moveSpeed+10;
+                }
+
+                if(seconds < 1){
+                    moveSpeed = 0;
+                }
+
+                let roundedPrice = itemPrice.toFixed(2)
+
+                if(itemPrice < 0.01){
+                    itemPrice = 0.01;
+                }
+
+                let precio = document.getElementById("precio");
+                precio.innerHTML = '£'+roundedPrice
+
+                if(seconds == 0){
+                    failScreen();
+                }
+                
+            }
+
+            updateTimer();
+            setInterval(updateTimer, 1000);
+
+            const item = document.getElementById("movingItems");
+
+            let x = 100;
+            let y = 100;
+            let dx = 4; 
+            let dy = 3; 
+
+            function animate() {
+                const area = document.getElementById("bounceArea");
+                const areaWidth = area.clientWidth;
+                const areaHeight = area.clientHeight;
+                const itemWidth = item.offsetWidth;
+                const itemHeight = item.offsetHeight;
+
+                // Move position
+                x += dx;
+                y += dy;
+                dx = Math.sign(dx) * moveSpeed;
+                dy = Math.sign(dy) * moveSpeed;
+                // Left wall
+                if (x <= 0) {
+                    x = 0;
+                    dx *= -1;
+                }
+                // Right wall
+                if (x + itemWidth >= areaWidth) {
+                    x = areaWidth - itemWidth;
+                    dx *= -1;
+                }
+                // Top wall
+                if (y <= 0) {
+                    y = 0;
+                    dy *= -1;
+                }
+                // Bottom wall
+                if (y + itemHeight >= areaHeight) {
+                    y = areaHeight - itemHeight;
+                    dy *= -1;
+                }
+
+                item.style.left = x + "px";
+                item.style.top = y + "px";
+
+                dx = Math.sign(dx) * moveSpeed;
+                dy = Math.sign(dy) * moveSpeed;
+
+                requestAnimationFrame(animate);
+            }
+
+            animate();
+
+            /* if(seconds == 0){
+            //     let newPopUpBg = document.createElement("div");
+                newPopUpBg.setAttribute("id", "pop-up-bg");
+                newPopUpBg.setAttribute("onclick", "timedClosePopUp()");
+
+                let newPopUp = document.createElement("div");
+                newPopUp.setAttribute("class", "pop-up");
+                newPopUp.innerHTML = `<p>Are you sure you want to watch this video</p>`
+                newPopUpBg.appendChild(newPopUp);
+
+                document.getElementsByTagName('body')[0].appendChild(newPopUpBg);
+                
+                console.log("Pop up open!")
+            // } */
+
+            function failScreen(){
+                moveSpeed = 0;
+                let savedPrice = itemPrice.toFixed(2);
+                itemPrice = savedPrice
+
+
+                let newPopUpBg = document.createElement("div");
+                newPopUpBg.setAttribute("id", "pop-up-bg");
+
+                let newPopUp = document.createElement("div");
+                newPopUp.setAttribute("class", "pop-up");
+                newPopUp.innerHTML = `<p>YOU MISSED THE SALE!</p>`;
+                newPopUpBg.appendChild(newPopUp);
+                
+                let homeButton = document.createElement("button");
+                homeButton.innerHTML = 'Back to Home'
+                homeButton.setAttribute("class", "homescreenBtn");
+                homeButton.setAttribute("onclick", "goToHome()")
+                newPopUp.appendChild(homeButton);
+
+                document.getElementsByTagName('body')[0].appendChild(newPopUpBg);
+                
+                console.log("Pop up open!")
+            }
+
+            function boughtShirt(){
+                moveSpeed = 0;
+                let savedPrice = itemPrice.toFixed(2);
+                itemPrice = savedPrice
+
+
+                let newPopUpBg = document.createElement("div");
+                newPopUpBg.setAttribute("id", "pop-up-bg");
+
+                let newPopUp = document.createElement("div");
+                newPopUp.setAttribute("class", "pop-up");
+                newPopUp.innerHTML = `<p>SOLD!</p>`
+                newPopUpBg.appendChild(newPopUp);
+
+                let homeButton = document.createElement("button");
+                homeButton.innerHTML = 'Back to Home'
+                homeButton.setAttribute("class", "homescreenBtn");
+                homeButton.setAttribute("onclick", "goToHome()")
+                newPopUp.appendChild(homeButton);
+
+                document.getElementsByTagName('body')[0].appendChild(newPopUpBg);
+                
+                console.log("Pop up open!")
+            }
+
+            function goToHome(){
+                location.href = "/index.html";
+            }
+
+        </script>
+    </body>
+</html>

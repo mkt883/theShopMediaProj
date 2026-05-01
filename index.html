@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script type="text/javascript" src="script.js"></script>
+    </head>
+    <style>
+        body{
+            background-color: black;
+            color: white;
+        }
+
+        #layout{
+            display: flex;
+            justify-content: space-between;
+            border: solid grey 10px;
+        }
+
+        #centerDiv{
+            height: auto;
+            width: auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        #items{
+            display: flex;
+            /* position: fixed; */
+            width: 800px;
+            height: 380px;
+            justify-content: space-around;
+            flex-direction: row;
+            flex-wrap: wrap;
+            overflow: scroll;
+        }
+
+        .itemPlaceholder{
+            /* background: white; */
+            height: 120px;
+            width: 120px;
+            margin: 40px;
+            object-fit: cover;
+        }
+        .itemPlaceholder:hover{
+            transform: scale(1.1);
+            transition: 0.3s;
+        }
+        .itemPlaceholder img {
+            height: 100%;
+            width: 100%;
+        }
+
+        .sideCol{
+            width: 300px;
+            height: 100vh;
+            background: rgb(1, 1, 1);
+        }
+
+        .spaceMaker{
+            height:40px
+        }
+
+        /*        Items         */
+        #baitnswitch{
+            background-image: url("homepage_icons/MPI_baitnswitch.png");
+        }
+        #confshame{
+            background-image: url("homepage_icons/MPI_confshame.png");
+        }
+        #privzuck{
+            background-image: url("homepage_icons/MPI_privzuck.png");
+        }
+        #pricecomp{
+            background-image: url("homepage_icons/MPI_pricecompprev_apple.png");
+        }
+        #sunkcost{
+            background-image: url("homepage_icons/MPI_sunkcost.png");
+        }
+        #fakeurgency{
+            background-image: url("homepage_icons/MPI_fakeurgency.png");
+        }
+        #roachmotel{
+            background-image: url("homepage_icons/MPI_roachmotel.png");
+        }
+        #preselect{
+            background-image: url("homepage_icons/MPI_preselect.png");
+        }
+
+        #staticOverlay{
+            position: absolute;
+            z-index: 20;
+            pointer-events: none;
+            height: 100vh;
+            width: 100vw;
+            mix-blend-mode: screen;
+            opacity: 0.4;
+        }
+    </style>
+    <body>
+        <div id="layout">
+            <img id="staticOverlay" src="homepage_icons/static-overlay-2.gif">
+            <div class="sideCol">
+            </div>
+            <div id="centerDiv">
+                <!-- <h1 style="font-size: 70px;">The Shop</h1> -->
+                <!-- <div class="spaceMaker"></div> -->
+                <div id="items">
+                    <a href="baitnswitch.html"><div class="itemPlaceholder" id="baitnswitch"><img src="homepage_icons/MPI_baitnswitch.gif"></div></a>
+                    <a href="confshame.html"><div class="itemPlaceholder" id="confshame"><img src="homepage_icons/MPI_confshame.png"></div></a>
+                    <a href="privzuck.html"><div class="itemPlaceholder" id="privzuck"><img src="homepage_icons/MPI_privzuck.png"></div></a>
+                    <a href="/pricecomp.html"><div class="itemPlaceholder" id="pricecomp"><img src="homepage_icons/MPI_pricecompprev_apple.png" onmouseover="hover(this);" onmouseout="unhover(this);"></div></a>
+                    <a href="urgancy.html"><div class="itemPlaceholder" id="fakeurgency"><img src="homepage_icons/MPI_fakeurgency.gif"></div></a>
+                    <a href="roachmotel.html"><div class="itemPlaceholder" id="roachmotel"><img src="homepage_icons/MPI_roachmotel.png"></div></a>
+                    <a href="preselect.html"><div class="itemPlaceholder" id="preselect"><img src="homepage_icons/MPI_preselect.png"></div></a>
+                </div>
+            </div>
+            <div class="sideCol">
+            </div>
+        </div>
+    </body>
+</html>

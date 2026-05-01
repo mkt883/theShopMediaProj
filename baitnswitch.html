@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script type="text/javascript" src="script.js"></script>
+        <style>
+
+            *{
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            }
+            body{
+                display: flex;
+                flex-direction:column;
+                background-color: black;
+                color: white;
+                text-align: center;
+                overflow: hidden;
+                align-items: center;
+                justify-content: center;
+            }
+
+            #titleCardScreen {
+                background: black;
+                color: hotpink;
+                position: absolute;
+                width: 100vw;
+                height: 100vh;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 100px;
+                text-align: center;
+                opacity: .8;
+                z-index: 101;
+                top: 0;
+
+                animation: burstIn 1s ease;
+            }
+
+            @keyframes burstIn {
+                0% {opacity: 0;}
+                50% {opacity: 0;}
+                100% {opacity: .8;};
+            }
+            @keyframes fadeTitleOut {
+                0% {opacity: .8;}
+                100% {opacity: 0;};
+            }
+
+            .imgs {
+                position: absolute;
+                padding: 15px;
+                max-height: 300px;
+                transition: ease 1s;
+                filter: drop-shadow(5px 5px 10px #575758);
+                z-index: inherit;
+            }
+            .imgs:hover{
+                transform: scale(1.1);
+                cursor: pointer;
+                z-index: 10;
+            }
+
+            #imgsCont{
+                position: relative;
+                height: 500px;
+                width: 700px;
+                background-color: rgb(43, 43, 43);
+            }
+
+            /*          POP UP STYLING            */
+            #pop-up-bg{
+                height: 100%;
+                width: 100%;
+
+                display: flex;
+                z-index: 100;
+                position: fixed;
+
+                text-align: center;
+                justify-content: center;
+                align-items: center;
+
+                /* background: rgba(0, 0, 0, 0.5); */
+                opacity: 1;
+
+                animation: fadeIn ease 0.5s;
+
+            }
+
+            @keyframes popIn {
+                0% {transform:scale(0);}
+                100% {transform:scale(1);};
+            }
+            @keyframes popOut {
+                0% {transform:scale(1);};
+                100% {transform:scale(0);}
+            }
+
+            .pop-up{
+                text-align: center;
+                display: flex;
+                flex-direction: column;
+                height: 300px;
+                width: 390px;
+                color: black;
+                background: #DACDC6;
+                padding: 10px 20px;
+                border-radius: 2px;
+                filter: drop-shadow(10px 10px 4px rgba(0, 0, 0, 0.082));
+                overflow-y: scroll;
+                overflow-x: hidden;
+
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            }
+            .pop-up img {
+                padding: 5px;
+                max-height: 200px;
+                max-width: auto;
+            }
+            .pop-up-style-2{
+                text-align: center;
+                background: #00047F;
+                border-top: solid 5px #F7F7ED;
+                border-left: solid 5px #F7F7ED;
+                border-bottom: solid 5px #52524C;
+                border-right: solid 5px #52524C;
+                background: linear-gradient(90deg, rgba(0, 4, 127, 1) 0%, rgba(12, 125, 201, 1) 100%);
+                /* padding: 5px; */
+                padding: 0;
+            }
+
+            .top-bot-borders{
+                border-top: solid 1.5px #11111120;
+                padding-top: 20px;
+            }
+
+            #screenSaverBG{
+                position: absolute;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                z-index: 0;
+            }
+            #bottomHotBar{
+                position: absolute;
+                width: 100vw;
+                height: 50px;
+                background: #3137A9;
+                background: linear-gradient(0deg,rgba(49, 55, 169, 1) 0%, rgba(37, 97, 221, 1) 50%, rgba(55, 122, 226, 1) 100%);
+                z-index: 1;
+                bottom: 0;
+            }
+            #buttonContainer{
+                display: flex;
+                width: 100%;
+                justify-content: center;
+                align-items: center;
+            }
+            #yesButton{
+                background: #DACDC6;
+                color: black;
+                padding: 3px 30px;
+                border-top: solid 3px #F7F7ED;
+                border-left: solid 3px #F7F7ED;
+                border-bottom: solid 3px #52524C;
+                border-right: solid 3px #52524C;
+                transition: ease 0.2s;
+                /* border: solid 3px black; */
+            }
+            #yesButton:hover{
+                background: #b3b3a7;
+                cursor: pointer;
+            }
+            #noButton{
+                background: #DACDC6;
+                color: black;
+                padding: 3px 30px;
+                border-top: solid 3px #F7F7ED;
+                border-left: solid 3px #F7F7ED;
+                border-bottom: solid 3px #52524C;
+                border-right: solid 3px #52524C;
+                transition: ease 0.2s;
+                /* border: solid 3px black; */
+            }
+            #noButton:hover{
+                background: #b3b3a7;
+                cursor: pointer;
+            }
+            
+        </style>
+    </head>
+    <body>
+        <div id="titleCardScreen">
+            <h1>BAIT AND SWITCH</h1>
+        </div>
+        <h1 style="color: black; font-size: 30px; z-index: 5;">Find The Home Button</h1>
+        <div id="imgsCont">
+            <img class="imgs" onclick="openArcheology(this)" src="assets/bait-n-switch-gifs/archeology-maybe.gif">
+            <img class="imgs" onclick="openDog(this)" src="assets/bait-n-switch-gifs/dogs.gif">
+            <img class="imgs" onclick="openDorothy(this)" src="assets/bait-n-switch-gifs/dorothy-maybe.gif">
+            <img class="imgs" onclick="openFaith(this)" src="assets/bait-n-switch-gifs/faith.gif">
+            <img class="imgs" onclick="openFuneral(this)" src="assets/bait-n-switch-gifs/funeral-service.gif">
+            <img class="imgs" onclick="openPlanet(this)" src="assets/bait-n-switch-gifs/ill-planet.gif">
+            <img class="imgs" onclick="openMoney(this)" src="assets/bait-n-switch-gifs/money.gif">
+            <img class="imgs" onclick="openPin(this)" src="assets/bait-n-switch-gifs/pin.gif">
+            <img class="imgs" onclick="openArt(this)" src="assets/bait-n-switch-gifs/real-estate.gif">
+            <img class="imgs" onclick="foundHomeButton()" src="assets/bait-n-switch-gifs/spinning-home.gif">
+            <img class="imgs" onclick="openCasino(this)" src="assets/bait-n-switch-gifs/token.gif">
+            <img class="imgs" onclick="openTurtle(this)" src="assets/bait-n-switch-gifs/turtles-sealife.gif">
+            <img class="imgs" onclick="openFantasy(this)" src="assets/bait-n-switch-gifs/wingardia-sumn.gif">
+            <img class="imgs" onclick="openChristmas(this)" src="assets/bait-n-switch-gifs/christmas.gif">
+            <img class="imgs" onclick="openFire(this)" src="assets/bait-n-switch-gifs/fire.gif">
+            <img class="imgs" onclick="openDorothy(this)" src="assets/bait-n-switch-gifs/dorothy-maybe.gif">
+            <img class="imgs" onclick="openFaith(this)" src="assets/bait-n-switch-gifs/faith.gif">
+            <img class="imgs" onclick="openFuneral(this)" src="assets/bait-n-switch-gifs/funeral-service.gif">
+            <img class="imgs" onclick="openPlanet(this)" src="assets/bait-n-switch-gifs/ill-planet.gif">
+            <img class="imgs" onclick="openMoney(this)" src="assets/bait-n-switch-gifs/money.gif">
+            <img class="imgs" onclick="openPin(this)" src="assets/bait-n-switch-gifs/pin.gif">
+            <img class="imgs" onclick="openArt(this)" src="assets/bait-n-switch-gifs/real-estate.gif">
+            <img class="imgs" onclick="openCasino(this)" src="assets/bait-n-switch-gifs/token.gif">
+            <img class="imgs" onclick="openTurtle(this)" src="assets/bait-n-switch-gifs/turtles-sealife.gif">
+            <img class="imgs" onclick="openFantasy(this)" src="assets/bait-n-switch-gifs/wingardia-sumn.gif">
+            <img class="imgs" onclick="openCasino(this)" src="assets/bait-n-switch-gifs/token.gif">
+            <img class="imgs" onclick="openTurtle(this)" src="assets/bait-n-switch-gifs/turtles-sealife.gif">
+            <img class="imgs" onclick="openFantasy(this)" src="assets/bait-n-switch-gifs/wingardia-sumn.gif">
+            <img class="imgs" onclick="openChristmas(this)" src="assets/bait-n-switch-gifs/christmas.gif">
+            <img class="imgs" onclick="openFire(this)" src="assets/bait-n-switch-gifs/fire.gif">
+            <img class="imgs" onclick="openDorothy(this)" src="assets/bait-n-switch-gifs/dorothy-maybe.gif">
+            <img class="imgs" onclick="openFaith(this)" src="assets/bait-n-switch-gifs/faith.gif">
+            <img class="imgs" onclick="openFuneral(this)" src="assets/bait-n-switch-gifs/funeral-service.gif">
+            <img class="imgs" onclick="openPlanet(this)" src="assets/bait-n-switch-gifs/ill-planet.gif">
+            <img class="imgs" onclick="openMoney(this)" src="assets/bait-n-switch-gifs/money.gif">
+            <img class="imgs" onclick="openPin(this)" src="assets/bait-n-switch-gifs/pin.gif">
+            <img class="imgs" onclick="openArt(this)" src="assets/bait-n-switch-gifs/real-estate.gif">
+            <img class="imgs" onclick="openCasino(this)" src="assets/bait-n-switch-gifs/token.gif">
+            <img class="imgs" onclick="openTurtle(this)" src="assets/bait-n-switch-gifs/turtles-sealife.gif">
+            <img class="imgs" onclick="openFantasy(this)" src="assets/bait-n-switch-gifs/wingardia-sumn.gif">
+        </div>
+        <div id="bottomHotBar"></div>
+        <img id="screenSaverBG"src="assets/bait-n-switch-gifs/bns-assets/home-screen.jpg">
+        <script>
+            window.onload = function () {
+                setTimeout(fadeawayTitleCard, 4000)
+            }
+
+            function scatterImages() {
+                let imgs = document.querySelectorAll('.imgs');
+                let imgsContainer = document.getElementById("imgsCont");
+
+                imgs.forEach(img => {
+                    let maxX = Math.max(0, imgsContainer.clientWidth - img.offsetWidth);
+                    let maxY = Math.max(0, imgsContainer.clientHeight - img.offsetHeight);
+
+                    let xPos = Math.random() * maxX;
+                    let yPos = Math.random() * maxY;
+                    let randomZInNum = Math.floor(Math.random()*90);
+
+                    img.style.left = xPos + 'px';
+                    img.style.top = yPos + 'px';
+                    img.style.zIndex = randomZInNum;
+                });
+            }
+
+            window.addEventListener("load", scatterImages);
+
+            function openPopUp(element){
+                let newPopUpBg = document.createElement("div");
+                newPopUpBg.setAttribute("id", "pop-up-bg");
+
+                newPopUpBg.innerHTML = `
+                    <div class="pop-up-style-2">
+                        <h2 style="margin-left: 3px;">Would you like to buy this item?</h2>
+                        <div class="pop-up">
+                            <div id="buttonContainer">
+                                <button id="yesButton" onclick="loseScreen()">Yes</button>
+                                <button id="noButton" onclick="closePopUp()">No</button>
+                            </div>
+                        </div>
+                    </div>
+                `
+
+                document.getElementsByTagName('body')[0].appendChild(newPopUpBg);
+                
+                console.log("Pop up open!")
+
+                element.remove(this)
+            }
+            function foundHomeButton(){
+                
+                let newPopUpBg = document.createElement("div");
+                newPopUpBg.setAttribute("id", "pop-up-bg");
+
+                newPopUpBg.innerHTML = `
+                    <div class="pop-up-style-2">
+                        <h2 style="margin-left: 3px;">You found the home button!</h2>
+                        <div class="pop-up">
+                            <img src="assets/bait-n-switch-gifs/spinning-home.gif" width="400px">
+                            <div id="buttonContainer">
+                                <button id="yesButton" onclick="goToHome()">Homescreen</button>
+                            </div>
+                        </div>
+                    </div>
+                `
+
+                document.getElementsByTagName('body')[0].appendChild(newPopUpBg);
+                
+                console.log("Pop up open!")
+            }
+            function openArcheology(element){
+                let newPopUpBg = document.createElement("div");
+                newPopUpBg.setAttribute("id", "pop-up-bg");
+
+                newPopUpBg.innerHTML = `
+                    <div class="pop-up-style-2">
+                        <h2 style="margin-left: 3px;">Discover the dinos!</h2>
+                        <div class="pop-up">
+                            <img src="assets/bait-n-switch-gifs/bait-n-switch-ads/bns-ad-archeology.png">
+                            <div id="buttonContainer">
+                                <button id="yesButton" onclick="loseScreen()">Yes</button>
+                                <button id="noButton" onclick="closePopUp()">No</button>
+                            </div>
+                        </div>
+                    </div>
+                `
+
+                document.getElementsByTagName('body')[0].appendChild(newPopUpBg);
+                
+                console.log("Pop up open!")
+
+                element.remove(this)
+            }
+            function openArt(element){
+                let newPopUpBg = document.createElement("div");
+                newPopUpBg.setAttribute("id", "pop-up-bg");
+
+                newPopUpBg.innerHTML = `
+                    <div class="pop-up-style-2">
+                        <h2 style="margin-left: 3px;">Get some art for your home!</h2>
+                        <div class="pop-up">
+                            <img src="assets/bait-n-switch-gifs/bait-n-switch-ads/bns-ad-art.png">
+                            <div id="buttonContainer">
+                                <button id="yesButton" onclick="loseScreen()">Yes</button>
+                                <button id="noButton" onclick="closePopUp()">No</button>
+                            </div>
+                        </div>
+                    </div>
+                `
+
+                document.getElementsByTagName('body')[0].appendChild(newPopUpBg);
+                
+                console.log("Pop up open!")
+
+                element.remove(this)
+            }
+            function openCasino(element){
+                let newPopUpBg = document.createElement("div");
+                newPopUpBg.setAttribute("id", "pop-up-bg");
+
+                newPopUpBg.innerHTML = `
+                    <div class="pop-up-style-2">
+                        <h2 style="margin-left: 3px;">Bring back the money!</h2>
+                        <div class="pop-up">
+                            <img src="assets/bait-n-switch-gifs/bait-n-switch-ads/bns-ad-casino.png">
+                            <div id="buttonContainer">
+                                <button id="yesButton" onclick="loseScreen()">Yes</button>
+                                <button id="noButton" onclick="closePopUp()">No</button>
+                            </div>
+                        </div>
+                    </div>
+                `
+
+                document.getElementsByTagName('body')[0].appendChild(newPopUpBg);
+                
+                console.log("Pop up open!")
+
+                element.remove(this)
+            }
+            function openChristmas(element){
+                let newPopUpBg = document.createElement("div");
+                newPopUpBg.setAttribute("id", "pop-up-bg");
+
+                newPopUpBg.innerHTML = `
+                    <div class="pop-up-style-2">
+                        <h2 style="margin-left: 3px;">Merry christmas!</h2>
+                        <div class="pop-up">
+                            <img src="assets/bait-n-switch-gifs/bait-n-switch-ads/bns-ad-christmas.png">
+                            <div id="buttonContainer">
+                                <button id="yesButton" onclick="loseScreen()">Yes</button>
+                                <button id="noButton" onclick="closePopUp()">No</button>
+                            </div>
+                        </div>
+                    </div>
+                `
+
+                document.getElementsByTagName('body')[0].appendChild(newPopUpBg);
+                
+                console.log("Pop up open!")
+
+                element.remove(this)
+            }
+            function openComedy(element){
+                let newPopUpBg = document.createElement("div");
+                newPopUpBg.setAttribute("id", "pop-up-bg");
+
+                newPopUpBg.innerHTML = `
+                    <div class="pop-up-style-2">
+                        <h2 style="margin-left: 3px;">Home of laughter</h2>
+                        <div class="pop-up">
+                            <img src="assets/bait-n-switch-gifs/bait-n-switch-ads/bns-ad-comedy.png">
+                            <div id="buttonContainer">
+                                <button id="yesButton" onclick="loseScreen()">Yes</button>
+                                <button id="noButton" onclick="closePopUp()">No</button>
+                            </div>
+                        </div>
+                    </div>
+                `
+
+                document.getElementsByTagName('body')[0].appendChild(newPopUpBg);
+                
+                console.log("Pop up open!")
+
+                element.remove(this)
+            }
+            function openDog(element){
+                let newPopUpBg = document.createElement("div");
+                newPopUpBg.setAttribute("id", "pop-up-bg");
+
+                newPopUpBg.innerHTML = `
+                    <div class="pop-up-style-2">
+                        <h2 style="margin-left: 3px;">Dogs need homes too!</h2>
+                        <div class="pop-up">
+                            <img src="assets/bait-n-switch-gifs/bait-n-switch-ads/bns-ad-dog.png">
+                            <div id="buttonContainer">
+                                <button id="yesButton" onclick="loseScreen()">Yes</button>
+                                <button id="noButton" onclick="closePopUp()">No</button>
+                            </div>
+                        </div>
+                    </div>
+                `
+
+                document.getElementsByTagName('body')[0].appendChild(newPopUpBg);
+                
+                console.log("Pop up open!")
+
+                element.remove(this)
+            }
+            function openDorothy(element){
+                let newPopUpBg = document.createElement("div");
+                newPopUpBg.setAttribute("id", "pop-up-bg");
+
+                newPopUpBg.innerHTML = `
+                    <div class="pop-up-style-2">
+                        <h2 style="margin-left: 3px;">Walk the road home!</h2>
+                        <div class="pop-up">
+                            <img src="assets/bait-n-switch-gifs/bait-n-switch-ads/bns-ad-dorothy.png">
+                            <div id="buttonContainer">
+                                <button id="yesButton" onclick="loseScreen()">Yes</button>
+                                <button id="noButton" onclick="closePopUp()">No</button>
+                            </div>
+                        </div>
+                    </div>
+                `
+
+                document.getElementsByTagName('body')[0].appendChild(newPopUpBg);
+                
+                console.log("Pop up open!")
+
+                element.remove(this)
+            }
+            function openFaith(element){
+                let newPopUpBg = document.createElement("div");
+                newPopUpBg.setAttribute("id", "pop-up-bg");
+
+                newPopUpBg.innerHTML = `
+                    <div class="pop-up-style-2">
+                        <h2 style="margin-left: 3px;">Come home to the father</h2>
+                        <div class="pop-up">
+                            <img src="assets/bait-n-switch-gifs/bait-n-switch-ads/bns-ad-faith.png">
+                            <div id="buttonContainer">
+                                <button id="yesButton" onclick="loseScreen()">Yes</button>
+                                <button id="noButton" onclick="closePopUp()">No</button>
+                            </div>
+                        </div>
+                    </div>
+                `
+
+                document.getElementsByTagName('body')[0].appendChild(newPopUpBg);
+                
+                console.log("Pop up open!")
+
+                element.remove(this)
+            }
+            function openFantasy(element){
+                let newPopUpBg = document.createElement("div");
+                newPopUpBg.setAttribute("id", "pop-up-bg");
+
+                newPopUpBg.innerHTML = `
+                    <div class="pop-up-style-2">
+                        <h2 style="margin-left: 3px;">Welcome to the home of wizards!</h2>
+                        <div class="pop-up">
+                            <img src="assets/bait-n-switch-gifs/bait-n-switch-ads/bns-ad-fantasy.png">
+                            <div id="buttonContainer">
+                                <button id="yesButton" onclick="loseScreen()">Yes</button>
+                                <button id="noButton" onclick="closePopUp()">No</button>
+                            </div>
+                        </div>
+                    </div>
+                `
+
+                document.getElementsByTagName('body')[0].appendChild(newPopUpBg);
+                
+                console.log("Pop up open!")
+
+                element.remove(this)
+            }
+            function openFire(element){
+                let newPopUpBg = document.createElement("div");
+                newPopUpBg.setAttribute("id", "pop-up-bg");
+
+                newPopUpBg.innerHTML = `
+                    <div class="pop-up-style-2">
+                        <h2 style="margin-left: 3px;">Saving your home!</h2>
+                        <div class="pop-up">
+                            <img src="assets/bait-n-switch-gifs/bait-n-switch-ads/bns-ad-fire.png">
+                            <div id="buttonContainer">
+                                <button id="yesButton" onclick="loseScreen()">Yes</button>
+                                <button id="noButton" onclick="closePopUp()">No</button>
+                            </div>
+                        </div>
+                    </div>
+                `
+
+                document.getElementsByTagName('body')[0].appendChild(newPopUpBg);
+                
+                console.log("Pop up open!")
+
+                element.remove(this)
+            }
+            function openFuneral(element){
+                let newPopUpBg = document.createElement("div");
+                newPopUpBg.setAttribute("id", "pop-up-bg");
+
+                newPopUpBg.innerHTML = `
+                    <div class="pop-up-style-2">
+                        <h2 style="margin-left: 3px;">One last happy home</h2>
+                        <div class="pop-up">
+                            <img src="assets/bait-n-switch-gifs/bait-n-switch-ads/bns-ad-funeral.png">
+                            <div id="buttonContainer">
+                                <button id="yesButton" onclick="loseScreen()">Yes</button>
+                                <button id="noButton" onclick="closePopUp()">No</button>
+                            </div>
+                        </div>
+                    </div>
+                `
+
+                document.getElementsByTagName('body')[0].appendChild(newPopUpBg);
+                
+                console.log("Pop up open!")
+
+                element.remove(this)
+            }
+            function openMoney(element){
+                let newPopUpBg = document.createElement("div");
+                newPopUpBg.setAttribute("id", "pop-up-bg");
+
+                newPopUpBg.innerHTML = `
+                    <div class="pop-up-style-2">
+                        <h2 style="margin-left: 3px;">Get your money up!</h2>
+                        <div class="pop-up">
+                            <img src="assets/bait-n-switch-gifs/bait-n-switch-ads/bns-ad-money.png">
+                            <div id="buttonContainer">
+                                <button id="yesButton" onclick="loseScreen()">Yes</button>
+                                <button id="noButton" onclick="closePopUp()">No</button>
+                            </div>
+                        </div>
+                    </div>
+                `
+
+                document.getElementsByTagName('body')[0].appendChild(newPopUpBg);
+                
+                console.log("Pop up open!")
+
+                element.remove(this)
+            }
+            function openPin(element){
+                let newPopUpBg = document.createElement("div");
+                newPopUpBg.setAttribute("id", "pop-up-bg");
+
+                newPopUpBg.innerHTML = `
+                    <div class="pop-up-style-2">
+                        <h2 style="margin-left: 3px;">Bring home some badges!</h2>
+                        <div class="pop-up">
+                            <img src="assets/bait-n-switch-gifs/bait-n-switch-ads/bns-ad-pin.png">
+                            <div id="buttonContainer">
+                                <button id="yesButton" onclick="loseScreen()">Yes</button>
+                                <button id="noButton" onclick="closePopUp()">No</button>
+                            </div>
+                        </div>
+                    </div>
+                `
+
+                document.getElementsByTagName('body')[0].appendChild(newPopUpBg);
+                
+                console.log("Pop up open!")
+
+                element.remove(this)
+            }
+            function openPlanet(element){
+                let newPopUpBg = document.createElement("div");
+                newPopUpBg.setAttribute("id", "pop-up-bg");
+
+                newPopUpBg.innerHTML = `
+                    <div class="pop-up-style-2">
+                        <h2 style="margin-left: 3px;">Our planet our home!</h2>
+                        <div class="pop-up">
+                            <img src="assets/bait-n-switch-gifs/bait-n-switch-ads/bns-ad-planet.png">
+                            <div id="buttonContainer">
+                                <button id="yesButton" onclick="loseScreen()">Yes</button>
+                                <button id="noButton" onclick="closePopUp()">No</button>
+                            </div>
+                        </div>
+                    </div>
+                `
+
+                document.getElementsByTagName('body')[0].appendChild(newPopUpBg);
+                
+                console.log("Pop up open!")
+
+                element.remove(this)
+            }
+            function openTurtle(element){
+                let newPopUpBg = document.createElement("div");
+                newPopUpBg.setAttribute("id", "pop-up-bg");
+
+                newPopUpBg.innerHTML = `
+                    <div class="pop-up-style-2">
+                        <h2 style="margin-left: 3px;">Happy home below!</h2>
+                        <div class="pop-up">
+                            <img src="assets/bait-n-switch-gifs/bait-n-switch-ads/bns-ad-turtle.png">
+                            <div id="buttonContainer">
+                                <button id="yesButton" onclick="loseScreen()">Yes</button>
+                                <button id="noButton" onclick="closePopUp()">No</button>
+                            </div>
+                        </div>
+                    </div>
+                `
+
+                document.getElementsByTagName('body')[0].appendChild(newPopUpBg);
+                
+                console.log("Pop up open!")
+
+                element.remove(this)
+            }
+            function closePopUp(){
+                console.log("Pop up closed")
+                let popUp = document.getElementById("pop-up-bg");
+                popUp.remove();
+
+                return null;
+            }
+            function timedClosePopUp(){
+                let popUp = document.getElementById("pop-up-bg")
+                popUp.style.animation = "fadeOut ease 0.5s";
+                setTimeout(closePopUp, 500);
+            }
+            function loseScreen(){
+                let scene = document.getElementById("imgsCont")
+                scene.innerHTML = `
+                    <img src="assets/bait-n-switch-gifs/laughing2.gif">
+                    <h1>YOU LOST</h1>
+                    <div class="productTitle">Watch this video</div>
+                        <iframe width="420" height="236"
+                            src="https://youtu.be/qAVGDMipP2U?si=kgDpNkXpzSOmJhkG">
+                        </iframe>
+
+                    <p>Watch this to understand in more depth how bait and switch works</p>
+                    <a href="/index.html"><button class="homescreenBtn" onclick="goToHome">HOMEPAGE</button></a>
+                `
+            }
+            
+            function goToHome(){
+                location.href = "/index.html";
+            }
+            
+        </script>
+    </body>
+</html>

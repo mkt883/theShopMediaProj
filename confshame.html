@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script type="text/javascript" src="script.js"></script>
+        <style>
+            body {
+                background: white;
+                color: #626162;
+                margin: 0;
+                font-family: sans-serif;
+                /* display: flex; */
+                /* justify-content: center; */
+                /* align-items: center; */
+                min-height: 100vh;
+                overflow: hidden;
+            }
+            #titleCardScreen {
+                background: black;
+                color: rgb(4, 49, 214);
+                position: fixed;
+                width: 100vw;
+                height: 100vh;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 85px;
+                text-align: center;
+                opacity: .8;
+                z-index: 100;
+                top: 0;
+                left: 0;
+
+                animation: burstIn 1s ease;
+            }
+
+            @keyframes burstIn {
+                0% {opacity: 0;}
+                50% {opacity: 0;}
+                100% {opacity: .8;};
+            }
+            @keyframes fadeOut {
+                0% {opacity: .8;}
+                100% {opacity: 0;};
+            }
+
+            #videoContainer{
+                height: 640px;
+                width: 1137.78px;
+                background: rgb(1, 1, 1);
+                border-radius: 10px;
+            }
+            #videoContainer:hover{
+                cursor: pointer;
+            }
+
+            #centralCol{
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                /* justify-content: center; */
+                padding-left: 40px;
+            }
+
+            #topBanner{
+                background: white;
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                /* align-items: center; */
+                /* padding: 20px; */
+                height: 40px;
+                border-bottom: #CFD0D4 2px solid;
+                position: absolute;
+                padding: 20px;
+                /* top:0; */
+                width: 100vw; 
+                box-sizing: border-box;
+                filter: drop-shadow(0px 2px 5px rgba(0, 0, 0, 0.082));
+            }
+            #topBanner img {
+                max-height: 42px;
+                padding-left: 10px;
+            }
+
+            #screenDiv{
+                margin-top: 80px;
+                width: 100vw;
+                height: 100vh;
+                padding-left: 1%;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 40px;
+            }
+
+            #rightCol {
+                margin-top: 6%;
+                /* background: grey; */
+                width: 100%;
+                height: 90vh;
+                /* position: fixed; */
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                overflow-y: scroll;
+            }
+
+            #rightCol img {
+                width: auto;
+                height: 70%;
+            }
+
+            /*          POP UP STYLING            */
+            #pop-up-bg{
+                height: 100%;
+                width: 100%;
+
+                display: flex;
+                z-index: 100;
+                position: fixed;
+                top: 0;
+
+                text-align: center;
+                justify-content: center;
+                align-items: center;
+
+                background: rgba(0, 0, 0, 0.5);
+                opacity: 1;
+
+                animation: fadeIn ease 0.5s;
+                z-index: 100;
+
+            }
+
+            @keyframes fadeIn {
+                0% {opacity: 0;}
+                100% {opacity: 1;};
+            }
+            @keyframes fadeTitleOut {
+                0% {opacity: 1;}
+                100% {opacity: 0;};
+            }
+
+            .pop-up{
+                display: flex;
+                flex-direction: column;
+                height: 600px;
+                width: 780px;
+                color: black;
+                background: white;
+                padding: 20px 40px;
+                border-radius: 25px;
+                filter: drop-shadow(10px 10px 4px rgba(0, 0, 0, 0.082));
+                justify-content: center;
+                align-items: center;
+
+                overflow-y: scroll;
+                font-family: sans-serif;
+                z-index: 100;
+            }
+
+            .top-bot-borders{
+                border-top: solid 1.5px #11111120;
+                padding-top: 20px;
+            }
+
+            /* BUTTONS */
+            #yesButton{
+                background: #1467db;
+                color: white;
+                border: none;
+                border-radius: 20px;
+                padding: 12px 30px;
+                font-size: 18px;
+                margin: auto 15px;
+                cursor: pointer;
+                transition: 0.3s;
+            }
+            #yesButton:hover{
+                background: #4c8fed;
+                transform:scale(1.05)
+            }
+            #noButton{
+                background: #797979;
+                color: white;
+                border: none;
+                border-radius: 20px;
+                padding: 12px 30px;
+                font-size: 18px;
+                margin-top: 15px;
+                cursor: pointer;
+                transition: 0.3s;
+            }
+            #noButton:hover{
+                background: #b7b7b7;
+                transform:scale(1.05)
+            }
+
+            #imgStyling{
+                background: green;
+                height: 100px;
+                width: 70px;
+            }
+
+            /* END SCREEN BUTTON STYLING */
+            #homescreenBtn{
+                background: #00c853;
+                color: white;
+                border: none;
+                border-radius: 20px;
+                padding: 12px 30px;
+                font-size: 18px;
+                margin-top: 15px;
+                cursor: pointer;
+                transition: 0.3s;
+                /* position: fixed; */
+            }
+            #homescreenBtn:hover{
+                background: #03e661;
+                transform:scale(1.05)
+            }
+
+        </style>
+    </head>
+    <body>
+        <div id="titleCardScreen">
+            <h1>CONFIRMATION SHAMING</h1>
+        </div>
+        <div id="topBanner">
+            <div style="display: flex; align-items: center;">
+                <img src="assets/conf-shame-assets/ViewTube_Logo.png">
+                <h1 style="color: black; font-size: 50px; font-size: 40px;">ViewTube</h1>
+            </div>
+            <div style="display: flex; align-items: center;">
+                <img src="assets/conf-shame-assets/AdBlock Logo.png">
+            </div>
+        </div>
+        <div id="screenDiv">
+            <div id="centralCol">
+                <div>
+                    <div id="videoContainer" onclick="openPopUp()"></div>
+                    <div style="text-align: left;">
+                        <h2 style="color: black;">What is confirmation shaming?</h2>
+                        <p>In this video we're going to explain what confirmation shaming is and how <br>it's used in deceptive ux design.</p>
+                    </div>
+                </div>
+            </div>
+            <div id="rightCol">
+                <div>
+                    <img src="assets/conf-shame-assets/cf-thumbnail-roach.png" style="height: 340px;">
+                    <h3>Horrors Of The Roach Motel</h3>
+                </div>
+                <div>
+                    <img src="assets/conf-shame-assets/cf-thumbnail-pcp.png" style="height: 340px;">
+                    <h3>Apples Or Oranges: What's more expensive?</h3>
+                </div>
+                <div>
+                    <img src="assets/conf-shame-assets/cf-thumbnail-bns.png" style="height: 340px;">
+                    <h3>Ep 209 - Switching The Bait | DP Podcast</h3>
+                </div>
+            </div>
+        </div>
+        
+        <script>
+
+            window.onload = function () {
+                setTimeout(fadeawayTitleCard, 4000)
+            }
+
+            let counter = 0;
+
+            function counterIncrease(){
+                if (counter < 9){
+                    counter++;
+                }
+                console.log(counter);
+            }
+            let q1 = `
+                <div class="pop-up">
+                    <h1>We noticed you have Ad-Block!</h1>
+                    <img src="assets/conf-shame-assets/ConfShame_Dogs.png" width="400px">
+                    <p>Would you mind turning it off please?</p>
+                    <div id="buttonContainer">
+                        <button id="yesButton" onclick="closePopUp()">Of course! Sorry</button>
+                        <button id="noButton" onclick="closePopUp()">No thanks, I don't want to help you</button>
+                    </div>
+                </div>
+            `
+            let q2 = `
+                <div class="pop-up">
+                    <h1>Would you like to buy ViewTube Premium instead?</h1>
+                    <img src="assets/conf-shame-assets/ConfShame_Dogs (2).png" width="400px">
+                    <p>We're sure you'd love all the benefits!</p>
+                    <div id="buttonContainer">
+                        <button id="yesButton" onclick="closePopUp()">Sounds promising!</button>
+                        <button id="noButton" onclick="closePopUp()">No thanks, I want a boring experience</button>
+                    </div>
+                </div>
+            `
+            let q3 = `
+                <div class="pop-up">
+                    <h1>You're missing out on loads of benefits!</h1>
+                    <img src="assets/conf-shame-assets/ConfShame_Dogs (1).png" width="400px">
+                    <p>You can watch this and more videos offline, along with streaming music!</p>
+                    <div id="buttonContainer">
+                        <button id="yesButton" onclick="closePopUp()">I'm in!</button>
+                        <button id="noButton" onclick="closePopUp()">No I don't like an easier life</button>
+                    </div>
+                </div>
+            `
+            let q4 = `
+                <div class="pop-up">
+                    <h1>We'd hate to see you miss this opportunity...</h1>
+                    <img src="assets/conf-shame-assets/ConfShame_Dogs (3).png" width="400px">
+                    <p>87% of our users already use Premium, would be a shame if you missed out right?</p>
+                    <div id="buttonContainer">
+                        <button id="yesButton" onclick="closePopUp()">You're right, I want the benefits!</button>
+                        <button id="noButton" onclick="closePopUp()">No I love missing opportunities</button>
+                    </div>
+                </div>
+            `
+            let q5 = `
+                <div class="pop-up">
+                    <h1>Perhaps a discount?</h1>
+                    <img src="assets/conf-shame-assets/ConfShame_Dogs (5).png" width="400px">
+                    <p>We've pulled some strings and are able to offer you a fine 70% discount! This brings down the year price from £168 to £50.40! Not many customers get this offer</p>
+                    <div id="buttonContainer">
+                        <button id="yesButton" onclick="closePopUp()">What a steal!</button>
+                        <button id="noButton" onclick="closePopUp()">No I don't like sales</button>
+                    </div>
+                </div>
+            `
+            let q6 = `
+                <div class="pop-up">
+                    <h1>Are you sure you don't want premium?</h1>
+                    <img src="assets/conf-shame-assets/ConfShame_Dogs (6).png" width="400px">
+                    <p>Would you mind turning it off please?</p>
+                    <div id="buttonContainer">
+                        <button id="yesButton" onclick="closePopUp()">Yes it seems too good</button>
+                        <button id="noButton" onclick="closePopUp()">No I would hate to miss out</button>
+                    </div>
+                </div>
+            `
+            let q7 = `
+                <div class="pop-up">
+                    <h1>Are you REALLY sure you</h1>
+                    <img src="assets/conf-shame-assets/ConfShame_Dogs (4).png" width="400px">
+                    <p>We know you'd love it!</p>
+                    <div id="buttonContainer">
+                        <button id="yesButton" onclick="closePopUp()">No, I'm interested!</button>
+                        <button id="noButton" onclick="closePopUp()">Yes I have nothing else important to do today</button>
+                    </div>
+                </div>
+            `
+
+            let q8 = `
+                <div class="pop-up">
+                    <h1>Alright enjoy the video</h1>
+                    <img src="assets/conf-shame-assets/ConfShame_Dogs (7).png" width="400px">
+                    <p>:(</p>
+                    <div id="buttonContainer">
+                        <button id="yesButton" onclick="closePopUp()">WAIT I changed my mind</button>
+                        <button id="noButton" onclick="closePopUp()">Thanks I'll waste my time more</button>
+                    </div>
+                </div>
+            `
+
+            let popUpsArray = [q1, q2, q3, q4, q5, q6, q7, q8]
+            
+            function showHomeButton(){
+                let homeButton = document.createElement("button")
+                homeButton.setAttribute("id", "homescreenBtn")
+                homeButton.setAttribute("onclick", "goToHome()")
+                homeButton.innerHTML = 'Homepage'
+                // let homeButton = document.getElementById("homescreenBtn")
+                    document.getElementById('centralCol').appendChild(homeButton);
+                    // homeButton.style.pointerEvents = "auto"
+                    // homeButton.style.opacity = "1"
+            }
+
+            function openPopUp(){
+                if(counter < 8){
+                    let newPopUpBg = document.createElement("div");
+                    newPopUpBg.setAttribute("id", "pop-up-bg");
+
+                    newPopUpBg.innerHTML = popUpsArray[counter]
+
+                    document.getElementsByTagName('body')[0].prepend(newPopUpBg);
+                    
+                    console.log("Pop up open!")
+                    counterIncrease();
+                }
+                if(counter === 8 ){
+                    showHomeButton();
+                }
+            }
+            function closePopUp(){
+                console.log("Pop up closed")
+                let popUp = document.getElementById("pop-up-bg");
+                popUp.remove();
+
+                return null;
+            }
+            function timedClosePopUp(){
+                let popUp = document.getElementById("pop-up-bg")
+                popUp.style.animation = "fadeOut ease 0.5s";
+                setTimeout(closePopUp, 500);
+            }
+            function goToHome(){
+                location.href = "/index.html";
+            }
+
+        </script>
+    </body>
+</html>

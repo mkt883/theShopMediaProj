@@ -313,7 +313,16 @@
 
                 let newPopUp = document.createElement("div");
                 newPopUp.setAttribute("class", "pop-up");
-                newPopUp.innerHTML = `<p>YOU MISSED THE SALE!</p>`;
+                newPopUp.innerHTML = `
+                        <h2>You missed the sale!</h2>
+                        <br>
+                        <p>Watch this video to see how fake urgency works</p>
+                        <br>
+                            <video width="320" height="240" controls>
+                            <source src="assets/videos/ADMP_Videos_FakeUrgency.mp4" type="video/mp4">
+                            Your browser does not support the video tag!
+                            </video>
+                        <br>`;
                 newPopUpBg.appendChild(newPopUp);
                 
                 let homeButton = document.createElement("button");

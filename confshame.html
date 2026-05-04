@@ -366,6 +366,15 @@
             `
 
             let popUpsArray = [q1, q2, q3, q4, q5, q6, q7, q8]
+
+            let videoInnerHTML = `
+                <br>
+                    <video width="320" height="240" controls>
+                    <source src="assets/videos/ADMP_Videos_ConfirmationShaming.mp4" type="video/mp4">
+                    Your browser does not support the video tag!
+                    </video>
+                <br>
+            `
             
             function showHomeButton(){
                 let homeButton = document.createElement("button")
@@ -376,6 +385,7 @@
                     document.getElementById('centralCol').appendChild(homeButton);
                     // homeButton.style.pointerEvents = "auto"
                     // homeButton.style.opacity = "1"
+                document.getElementById("videoContainer").innerHTML = videoInnerHTML;
             }
 
             function openPopUp(){

@@ -435,10 +435,14 @@
                     newPopUpBg.innerHTML = `
                         <div class="pop-up">
                             <h1>You escaped</h1>
-                            <iframe width="420" height="236"
-                                src="https://youtu.be/qAVGDMipP2U?si=kgDpNkXpzSOmJhkG">
-                            </iframe>
-                            <p>Watch this to understand in more depth how the roach motel works</p>
+                            <br>
+                            <p>Watch this video to see how the roach motel works</p>
+                        <br>
+                            <video width="320" height="240" controls>
+                            <source src="assets/videos/ADMP_Videos_RoachMotel.mp4" type="video/mp4">
+                            Your browser does not support the video tag!
+                            </video>
+                        <br>
                             <div id="buttonContainer">
                                 <button id="noButton" onclick="goToHome()">Homepage</button>
                             </div>

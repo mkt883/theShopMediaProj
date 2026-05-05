@@ -310,7 +310,7 @@
                     <p>We'd be sad to see you go.<br> We worked really hard to personalize this for you.</p>
                     <div id="buttonContainer">
                         <button id="yesButton" onclick="closePopUp()">Yes I want to leave</button>
-                        <button id="noButton" onclick="closePopUp()">No thanks, I'll stay some more</button>
+                        <button id="noButton" onclick="loseScreen()">No thanks, I'll stay some more</button>
                     </div>
                 </div>
             `
@@ -321,7 +321,7 @@
                     <p>You’ll lose all your saved preferences and history here if you cancel your stay now!</p>
                     <div id="buttonContainer">
                         <button id="yesButton" onclick="closePopUp()">That's fine</button>
-                        <button id="noButton" onclick="closePopUp()">Oh no!</button>
+                        <button id="noButton" onclick="loseScreen()">Oh no!</button>
                     </div>
                 </div>
             `
@@ -332,7 +332,7 @@
                     <p>You’re currently saving 40% compared to new members—don’t lose that!</p>
                     <div id="buttonContainer">
                         <button id="yesButton" onclick="closePopUp()">That's nice...</button>
-                        <button id="noButton" onclick="closePopUp()">You're right, wouldn't want to miss out</button>
+                        <button id="noButton" onclick="loseScreen()">You're right, wouldn't want to miss out</button>
                     </div>
                 </div>
             `
@@ -343,7 +343,7 @@
                     <p>Your benefits will expire immediately if you cancel now.</p>
                     <div id="buttonContainer">
                         <button id="yesButton" onclick="closePopUp()">I'm fine with that</button>
-                        <button id="noButton" onclick="closePopUp()">NOOOOOO</button>
+                        <button id="noButton" onclick="loseScreen()">NOOOOOO</button>
                     </div>
                 </div>
             `
@@ -353,7 +353,7 @@
                     <img src="assets/roach-motel/RoachMotel_Manager.png" width="400px">
                     <p>Wait! Stay and get 1 month FREE—no commitment.</p>
                     <div id="buttonContainer">
-                        <button id="yesButton" onclick="closePopUp()">I'm interested</button>
+                        <button id="yesButton" onclick="loseScreen()">I'm interested</button>
                         <button id="noButton" onclick="closePopUp()">No, let me leave</button>
                     </div>
                 </div>
@@ -364,7 +364,7 @@
                     <img src="assets/roach-motel/RoachMotel_Manager.png" width="400px">
                     <p>Thousands of users like you are choosing to stay.</p>
                     <div id="buttonContainer">
-                        <button id="yesButton" onclick="closePopUp()">They got the right idea!</button>
+                        <button id="yesButton" onclick="loseScreen()">They got the right idea!</button>
                         <button id="noButton" onclick="closePopUp()">I do not care</button>
                     </div>
                 </div>
@@ -399,7 +399,7 @@
                     <img src="assets/roach-motel/RoachMotel_Manager.png" width="400px">
                     <p>You may not be able to rejoin at your current price.</p>
                     <div id="buttonContainer">
-                        <button id="yesButton" onclick="closePopUp()">Maybe I should stay...</button>
+                        <button id="yesButton" onclick="loseScreen()">Maybe I should stay...</button>
                         <button id="noButton" onclick="closePopUp()">I'm never coming back</button>
                     </div>
                 </div>
@@ -411,7 +411,7 @@
                     <img src="assets/roach-motel/RoachMotel_Manager.png" width="400px">
                     <p>Your cancellation request will be processed in 3–5 business days.</p>
                     <div id="buttonContainer">
-                        <button id="yesButton" onclick="closePopUp()">You've convinced me to stay...</button>
+                        <button id="yesButton" onclick="loseScreen()">You've convinced me to stay...</button>
                         <button id="noButton" onclick="escapeMotel()">Fine.</button>
                     </div>
                 </div>
@@ -536,14 +536,38 @@
 
             let scaleNum = 300;
 
-            // function increaseDoorSize(){
-            //     // document.getElementById("sceneContainer img").style.height = 100%
-            //     let door = document.getElementById("door")
-            //     scaleNum*=1.1;
-            //     door.style.height = scaleNum+"px";
-            //     // document.getElementById("sceneContainer img").style.transform = "scale("+scaleNum+")";
+            function loseScreen(){
+                    let popUpBgCheck = document.getElementById("pop-up-bg");
+                    if(popUpBgCheck){
+                        popUpBgCheck.remove();
+                    }
 
-            // }
+                    let newPopUpBg = document.createElement("div");
+                    newPopUpBg.setAttribute("id", "pop-up-bg");
+
+                    newPopUpBg.innerHTML = `
+                    <div class="lose-pop-up">
+                    <h1>YOU LOST</h1>
+                    <p>You fell for the dark pattern</p><br>
+                    <p>Watch this video to understand more about the roach motel:</p><br>
+                            <video width="320" height="240" controls>
+                                <source src="https://media.githubusercontent.com/media/mkt883/theShopMediaProj/main/assets/videos/ADMP_Videos_RoachMotel.mp4" type="video/mp4">                            
+                                Your browser does not support the video tag!
+                            </video>
+                            <br>
+                    <div id="buttonContainer">
+                        <button id="yesButton" onclick="location.reload()">Try again</button>
+                        <button id="noButton" onclick="goToHome()">Go To Home</button>
+                    </div>
+                </div>
+
+                    `
+
+                    document.getElementsByTagName('body')[0].prepend(newPopUpBg);
+                    
+                    console.log("Pop up open!")
+                    showHomeButton();
+            }
 
             function orderEvents(){
                 openPopUp();

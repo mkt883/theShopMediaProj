@@ -44,8 +44,8 @@
             }
 
             #videoContainer{
-                height: 640px;
-                width: 1137.78px;
+                height: 360px;
+                width: 640px;
                 background: rgb(1, 1, 1);
                 border-radius: 10px;
             }
@@ -67,12 +67,12 @@
                 flex-direction: row;
                 justify-content: space-between;
                 /* align-items: center; */
-                /* padding: 20px; */
+                padding: 20px;
                 height: 40px;
                 border-bottom: #CFD0D4 2px solid;
                 position: absolute;
                 padding: 20px;
-                /* top:0; */
+                top:0;
                 width: 100vw; 
                 box-sizing: border-box;
                 filter: drop-shadow(0px 2px 5px rgba(0, 0, 0, 0.082));
@@ -96,7 +96,7 @@
             #rightCol {
                 margin-top: 6%;
                 /* background: grey; */
-                width: 100%;
+                width: 50%;
                 height: 90vh;
                 /* position: fixed; */
                 display: flex;
@@ -106,8 +106,8 @@
             }
 
             #rightCol img {
-                width: auto;
-                height: 70%;
+                /* width: auto; */
+                /* height: 50%; */
             }
 
             /*          POP UP STYLING            */
@@ -246,18 +246,18 @@
                 </div>
             </div>
             <div id="rightCol">
-                <div>
-                    <img src="assets/conf-shame-assets/cf-thumbnail-roach.png" style="height: 340px;">
+                <a href="roachmotel.html"><div>
+                    <img src="assets/conf-shame-assets/cf-thumbnail-roach.png" style="height: 200px;">
                     <h3>Horrors Of The Roach Motel</h3>
-                </div>
-                <div>
-                    <img src="assets/conf-shame-assets/cf-thumbnail-pcp.png" style="height: 340px;">
+                </div></a>
+                <a href="pricecomp.html"><div>
+                    <img src="assets/conf-shame-assets/cf-thumbnail-pcp.png" style="height: 200px;">
                     <h3>Apples Or Oranges: What's more expensive?</h3>
-                </div>
-                <div>
-                    <img src="assets/conf-shame-assets/cf-thumbnail-bns.png" style="height: 340px;">
+                </div></a>
+                <a href="baitnswitch.html"><div>
+                    <img src="assets/conf-shame-assets/cf-thumbnail-bns.png" style="height: 200px;">
                     <h3>Ep 209 - Switching The Bait | DP Podcast</h3>
-                </div>
+                </div></a>
             </div>
         </div>
         
@@ -369,8 +369,8 @@
 
             let videoInnerHTML = `
                 <br>
-                    <video width="320" height="240" controls>
-                    <source src="assets/videos/ADMP_Videos_ConfirmationShaming.mp4" type="video/mp4">
+                    <video width="640" height="360" controls>
+                    <source src="https://media.githubusercontent.com/media/mkt883/theShopMediaProj/main/raw/assets/videos/ADMP_Videos_ConfirmationShaming.mp4" type="video/mp4">
                     Your browser does not support the video tag!
                     </video>
                 <br>
@@ -402,6 +402,7 @@
                 }
                 if(counter === 8 ){
                     showHomeButton();
+                    counter+=1;
                 }
             }
             function closePopUp(){

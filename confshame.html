@@ -82,8 +82,12 @@
                 padding-left: 10px;
             }
 
+            #adblock:hover {
+                cursor: pointer;
+            }
+
             #screenDiv{
-                margin-top: 80px;
+                /* margin-top: 80px; */
                 width: 100vw;
                 height: 100vh;
                 padding-left: 1%;
@@ -97,7 +101,7 @@
                 margin-top: 6%;
                 /* background: grey; */
                 width: 50%;
-                height: 90vh;
+                height: 650px;
                 /* position: fixed; */
                 display: flex;
                 flex-direction: column;
@@ -148,6 +152,24 @@
                 width: 780px;
                 color: black;
                 background: white;
+                padding: 20px 40px;
+                border-radius: 25px;
+                filter: drop-shadow(10px 10px 4px rgba(0, 0, 0, 0.082));
+                justify-content: center;
+                align-items: center;
+
+                overflow-y: scroll;
+                font-family: sans-serif;
+                z-index: 100;
+            }
+
+            .lose-pop-up{
+                display: flex;
+                flex-direction: column;
+                height: 600px;
+                width: 780px;
+                color: white;
+                background: red;
                 padding: 20px 40px;
                 border-radius: 25px;
                 filter: drop-shadow(10px 10px 4px rgba(0, 0, 0, 0.082));
@@ -232,13 +254,13 @@
                 <h1 style="color: black; font-size: 50px; font-size: 40px;">ViewTube</h1>
             </div>
             <div style="display: flex; align-items: center;">
-                <img src="assets/conf-shame-assets/AdBlock Logo.png">
+                <img id="adblock" src="assets/conf-shame-assets/AdBlock Logo.png" onclick="loseScreen()">
             </div>
         </div>
         <div id="screenDiv">
             <div id="centralCol">
                 <div>
-                    <div id="videoContainer" onclick="openPopUp()"></div>
+                    <div id="videoContainer" onclick="openPopUp()"><p style="color: white; padding: 25%;">Click to watch video!</p></div>
                     <div style="text-align: left;">
                         <h2 style="color: black;">What is confirmation shaming?</h2>
                         <p>In this video we're going to explain what confirmation shaming is and how <br>it's used in deceptive ux design.</p>
@@ -281,7 +303,7 @@
                     <img src="assets/conf-shame-assets/ConfShame_Dogs.png" width="400px">
                     <p>Would you mind turning it off please?</p>
                     <div id="buttonContainer">
-                        <button id="yesButton" onclick="closePopUp()">Of course! Sorry</button>
+                        <button id="yesButton" onclick="loseScreen()">Of course! Sorry</button>
                         <button id="noButton" onclick="closePopUp()">No thanks, I don't want to help you</button>
                     </div>
                 </div>
@@ -292,7 +314,7 @@
                     <img src="assets/conf-shame-assets/ConfShame_Dogs (2).png" width="400px">
                     <p>We're sure you'd love all the benefits!</p>
                     <div id="buttonContainer">
-                        <button id="yesButton" onclick="closePopUp()">Sounds promising!</button>
+                        <button id="yesButton" onclick="loseScreen()">Sounds promising!</button>
                         <button id="noButton" onclick="closePopUp()">No thanks, I want a boring experience</button>
                     </div>
                 </div>
@@ -303,7 +325,7 @@
                     <img src="assets/conf-shame-assets/ConfShame_Dogs (1).png" width="400px">
                     <p>You can watch this and more videos offline, along with streaming music!</p>
                     <div id="buttonContainer">
-                        <button id="yesButton" onclick="closePopUp()">I'm in!</button>
+                        <button id="yesButton" onclick="loseScreen()">I'm in!</button>
                         <button id="noButton" onclick="closePopUp()">No I don't like an easier life</button>
                     </div>
                 </div>
@@ -314,7 +336,7 @@
                     <img src="assets/conf-shame-assets/ConfShame_Dogs (3).png" width="400px">
                     <p>87% of our users already use Premium, would be a shame if you missed out right?</p>
                     <div id="buttonContainer">
-                        <button id="yesButton" onclick="closePopUp()">You're right, I want the benefits!</button>
+                        <button id="yesButton" onclick="loseScreen()">You're right, I want the benefits!</button>
                         <button id="noButton" onclick="closePopUp()">No I love missing opportunities</button>
                     </div>
                 </div>
@@ -325,7 +347,7 @@
                     <img src="assets/conf-shame-assets/ConfShame_Dogs (5).png" width="400px">
                     <p>We've pulled some strings and are able to offer you a fine 70% discount! This brings down the year price from £168 to £50.40! Not many customers get this offer</p>
                     <div id="buttonContainer">
-                        <button id="yesButton" onclick="closePopUp()">What a steal!</button>
+                        <button id="yesButton" onclick="loseScreen()">What a steal!</button>
                         <button id="noButton" onclick="closePopUp()">No I don't like sales</button>
                     </div>
                 </div>
@@ -336,7 +358,7 @@
                     <img src="assets/conf-shame-assets/ConfShame_Dogs (6).png" width="400px">
                     <p>Would you mind turning it off please?</p>
                     <div id="buttonContainer">
-                        <button id="yesButton" onclick="closePopUp()">Yes it seems too good</button>
+                        <button id="yesButton" onclick="loseScreen()">Yes it seems too good</button>
                         <button id="noButton" onclick="closePopUp()">No I would hate to miss out</button>
                     </div>
                 </div>
@@ -347,7 +369,7 @@
                     <img src="assets/conf-shame-assets/ConfShame_Dogs (4).png" width="400px">
                     <p>We know you'd love it!</p>
                     <div id="buttonContainer">
-                        <button id="yesButton" onclick="closePopUp()">No, I'm interested!</button>
+                        <button id="yesButton" onclick="loseScreen()">No, I'm interested!</button>
                         <button id="noButton" onclick="closePopUp()">Yes I have nothing else important to do today</button>
                     </div>
                 </div>
@@ -359,7 +381,7 @@
                     <img src="assets/conf-shame-assets/ConfShame_Dogs (7).png" width="400px">
                     <p>:(</p>
                     <div id="buttonContainer">
-                        <button id="yesButton" onclick="closePopUp()">WAIT I changed my mind</button>
+                        <button id="yesButton" onclick="loseScreen()">WAIT I changed my mind</button>
                         <button id="noButton" onclick="closePopUp()">Thanks I'll waste my time more</button>
                     </div>
                 </div>
@@ -416,6 +438,39 @@
                 let popUp = document.getElementById("pop-up-bg")
                 popUp.style.animation = "fadeOut ease 0.5s";
                 setTimeout(closePopUp, 500);
+            }
+
+            function loseScreen(){
+                    let popUpBgCheck = document.getElementById("pop-up-bg");
+                    if(popUpBgCheck){
+                        popUpBgCheck.remove();
+                    }
+
+                    let newPopUpBg = document.createElement("div");
+                    newPopUpBg.setAttribute("id", "pop-up-bg");
+
+                    newPopUpBg.innerHTML = `
+                    <div class="lose-pop-up">
+                    <h1>YOU LOST</h1>
+                    <p>You fell for the dark pattern</p><br>
+                    <p>Watch this video to understand more about confirmation shaming:</p><br>
+                            <video width="320" height="240" controls>
+                                <source src="https://media.githubusercontent.com/media/mkt883/theShopMediaProj/main/assets/videos/ADMP_Videos_ConfirmationShaming.mp4" type="video/mp4">                            
+                                Your browser does not support the video tag!
+                            </video>
+                            <br>
+                    <div id="buttonContainer">
+                        <button id="yesButton" onclick="location.reload()">Try again</button>
+                        <button id="noButton" onclick="goToHome()">Go To Home</button>
+                    </div>
+                </div>
+
+                    `
+
+                    document.getElementsByTagName('body')[0].prepend(newPopUpBg);
+                    
+                    console.log("Pop up open!")
+                    showHomeButton();
             }
             function goToHome(){
                 location.href = "index.html";

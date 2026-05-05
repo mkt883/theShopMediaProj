@@ -90,7 +90,8 @@
             }
 
             /*          POP UP STYLING            */
-            #pop-up-bg{
+            .pop-up-bg{
+                pointer-events:none;
                 height: 100%;
                 width: 100%;
 
@@ -119,6 +120,7 @@
             }
 
             .pop-up{
+                pointer-events:auto;
                 text-align: left;
                 display: flex;
                 flex-direction: column;
@@ -159,65 +161,14 @@
         
 
         <script>
+            
             window.onload = function () {
                 setTimeout(fadeawayTitleCard, 4000)
             }
 
-            // let itemsArray = ['assets/preselection/preselect-item-dumbbell.png','assets/preselection/preselect-item-hoodie.png','assets/preselection/preselect-item-ps5.png']
-            // let itemsInnerTextArray = [`<div class="pop-up-style-2">
-            //             <h2 style="margin-left: 3px;">You look like you're ready for the gym!</h2>
-            //             <img src="assets/preselection/preselect-placeholder-gym.jpeg" height="150px">
-
-            //             <div class="pop-up">
-            //                 <input type="checkbox" class="checkboxVar" checked>
-            //                 <p>1 month membership</p>
-            //                 <input type="checkbox" class="checkboxVar">
-            //                 <p>5 month membership</p>
-            //                 <input type="checkbox" class="checkboxVar" checked>
-            //                 <p>1 year membership</p>
-
-            //                 <div id="buttonContainer">
-            //                     <button id="noButton" onclick="closePopUp()">Buy</button>
-            //                 </div>
-            //             </div>
-            //         </div>`,
-
-            //         `<div class="pop-up-style-2">
-            //             <h2 style="margin-left: 3px;">Stay looking fresh</h2>
-            //             <img src="assets/preselection/preselect-placeholder-ropa.jpg" height="150px">
-
-            //             <div class="pop-up">
-            //                 <input type="checkbox" class="checkboxVar" value="Bike" checked>
-            //                 <p>1 month membership</p>
-            //                 <input type="checkbox" class="checkboxVar" value="Car">
-            //                 <p>5 month membership</p>
-            //                 <input type="checkbox" class="checkboxVar" value="Boat" checked>
-            //                 <p>1 year membership</p>
-
-            //                 <div id="buttonContainer">
-            //                     <button id="noButton" onclick="closePopUp()">Buy</button>
-            //                 </div>
-            //             </div>
-            //         </div>`,
-
-            //         `<div class="pop-up-style-2">
-            //             <h2 style="margin-left: 3px;">Get ready to game!</h2>
-            //             <img src="assets/preselection/preselect-placeholder-ps5.jpeg" height="150px">
-
-            //             <div class="pop-up">
-            //                 <input type="checkbox" class="checkboxVar" >
-            //                 <p>Get gaming pass included for 1 month/p>
-            //                 <input type="checkbox" class="checkboxVar" checked>
-            //                 <p>Extra controller</p>
-            //                 <input type="checkbox" class="checkboxVar" checked>
-            //                 <p>2 games and 1 year warranty</p>
-
-            //                 <div id="buttonContainer">
-            //                     <button id="noButton" onclick="closePopUp()">Buy</button>
-            //                 </div>
-            //             </div>
-            //         </div>`
-            //     ]
+            let gameEnded = false;
+            let popupCount = 0;
+            let maxPopups = 4;
 
             let itemDatabase = [
             {
@@ -235,7 +186,7 @@
                                 <p>1 year membership</p>
 
                                 <div id="buttonContainer">
-                                    <button onclick="closePopUp()">Buy</button>
+                                    <button onclick="closePopUp(this)">Buy</button>
                                 </div>
                             </div>
                         </div>`
@@ -256,7 +207,7 @@
                                 <p>2 for 1 bundle</p>
 
                                 <div id="buttonContainer">
-                                    <button onclick="closePopUp()">Buy</button>
+                                    <button onclick="closePopUp(this)">Buy</button>
                                 </div>
                             </div>
                         </div>`
@@ -277,7 +228,7 @@
                                 <p>2 games + 1 year warranty</p>
 
                                 <div id="buttonContainer">
-                                    <button onclick="closePopUp()">Buy</button>
+                                    <button onclick="closePopUp(this)">Buy</button>
                                 </div>
                             </div>
                         </div>`
@@ -285,8 +236,21 @@
         ];
 
             function openPopUp(element){
+                if(gameEnded) return false;
+                if(popupCount >= maxPopups) return false;
+                // if(document.getElementById("pop-up-bg")) return;
                 let newPopUpBg = document.createElement("div");
-                newPopUpBg.setAttribute("id", "pop-up-bg");
+
+                newPopUpBg.style.justifyContent = "flex-start";
+                newPopUpBg.style.alignItems = "flex-start";
+
+                let randX = Math.floor(Math.random() * 700)+200;
+                let randY = Math.floor(Math.random() * 100)+50;
+
+                newPopUpBg.style.paddingLeft = randX + "px";
+                newPopUpBg.style.paddingTop = randY + "px";
+
+                newPopUpBg.setAttribute("class", "pop-up-bg");
                 let randomNum = Math.floor(Math.random() * 3);
 
                 // document.querySelectorAll(".item").style.backgroundImage = `url(${itemsArray[randomNum]})`
@@ -296,6 +260,8 @@
                 newPopUpBg.innerHTML = element.dataset.popup;
 
                 document.getElementsByTagName('body')[0].prepend(newPopUpBg);
+                popupCount++;
+                return true;
                 
                 console.log("Pop up open!")
 
@@ -320,8 +286,9 @@
                     seconds--;
                 }
 
-                if(seconds == 0){
-                    // failScreen();
+                if(seconds == 0 && gameEnded == false){
+                    gameEnded = true;
+                    endScreen();
                 }
                 
             }
@@ -342,6 +309,11 @@
 
             function checkCollision(item, watchInterval){
 
+                if(gameEnded){
+                    clearInterval(watchInterval);
+                    return;
+                }
+
                 // item = document.querySelectorAll(".item");
 
                 let cartBox = cart.getBoundingClientRect()
@@ -358,14 +330,21 @@
                 ){
                     console.log("hit")
                     clearInterval(watchInterval);
-                    item.remove();
-                    openPopUp(item);
+                    let didOpen = openPopUp(item);
+
+                    if(didOpen){
+                        clearInterval(watchInterval);
+                        item.remove();
+                    }
+                    // item.remove();
+                    // openPopUp(item);
                     // itemCountkext.innerHTML = 'Items: '+itemCount
 
                 }
             }
 
             function createItem(){
+                if(gameEnded) return;
                 let newItem = document.createElement("div");
                 let randomNum = Math.floor(Math.random() * 499);
 
@@ -425,8 +404,9 @@
             updatePoints();
 
 
-            function closePopUp(){
-                let checkBoxEls = document.querySelectorAll(".checkboxVar");
+            function closePopUp(buttonEl){
+                let currentPopup = buttonEl.closest(".pop-up-bg");
+                let checkBoxEls = currentPopup.querySelectorAll(".checkboxVar");
 
                 let checkedCount = 0;
 
@@ -445,22 +425,60 @@
                 updatePoints();
 
                 console.log("Pop up closed")
-                let popUp = document.getElementById("pop-up-bg");
-                popUp.remove();
+                currentPopup.remove();
+                popupCount--;
 
                 return null;
             }
-            function timedClosePopUp(){
-                let popUp = document.getElementById("pop-up-bg")
+            function timedClosePopUp(buttonEl){
+                let popUp = buttonEl.closest(".pop-up-bg");
                 popUp.style.animation = "fadeOut ease 0.5s";
-                setTimeout(closePopUp, 500);
+                setTimeout(() => closePopUp(buttonEl), 500);
             }
 
-            checkCollision();
+            function endScreen(){
+                popupCount = 0;
+                // if(gameEnded) return;
+                document.querySelectorAll(".pop-up-bg").forEach(pop => pop.remove());
+                document.querySelectorAll(".item").forEach(item => item.remove());
+                clearInterval(itemSpawner);
+                gameEnded = true;
+
+                let newPopUpBg = document.createElement("div");
+                newPopUpBg.setAttribute("class", "pop-up-bg");
+
+                let newPopUp = document.createElement("div");
+                newPopUp.setAttribute("class", "pop-up");
+                newPopUp.innerHTML = `
+                        <h2>You got ${pointsVal} points!</h2>
+                        <br>
+                        <p>Watch this video to see how preselection</p>
+                        <br>
+                            <video width="320" height="240" controls>
+                                <source src="https://media.githubusercontent.com/media/mkt883/theShopMediaProj/main/assets/videos/ADMP_Videos_Preselection.mp4" type="video/mp4">
+                            Your browser does not support the video tag!
+                            </video>
+                        <br>`;
+                newPopUpBg.appendChild(newPopUp);
+                
+                let homeButton = document.createElement("button");
+                homeButton.innerHTML = 'Back to Home'
+                homeButton.setAttribute("class", "homescreenBtn");
+                homeButton.setAttribute("onclick", "goToHome()")
+                newPopUp.appendChild(homeButton);
+
+                document.getElementsByTagName('body')[0].prepend(newPopUpBg);
+                
+                console.log("Pop up open!")
+            }
+
+            // checkCollision();
 
             function goToHome(){
                 location.href = "index.html";
             }
+
+            //<source src="https://media.githubusercontent.com/media/mkt883/theShopMediaProj/main/assets/videos/ADMP_Videos_Preselection.mp4" type="video/mp4">
 
         </script>
     </body>

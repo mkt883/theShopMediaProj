@@ -671,20 +671,34 @@
                 setTimeout(closePopUp, 500);
             }
             function loseScreen(){
-                let scene = document.getElementById("imgsCont")
-                scene.innerHTML = `
-                    <img src="assets/bait-n-switch-gifs/laughing2.gif">
-                    <h1>YOU LOST</h1>
-                    <div class="productTitle">Watch this video</div>
-                    <br>
-                            <video width="320" height="240" controls>
-                            <source src="https://media.githubusercontent.com/media/mkt883/theShopMediaProj/main/assets/videos/ADMP_Videos_BaitNSwitch.mp4" type="video/mp4">                            Your browser does not support the video tag!
-                            </video>
-                            <br>
+                let otherPopUp = document.getElementById("pop-up-bg")
 
-                    <p>Watch this to understand in more depth how bait and switch works</p>
-                    <a href="/index.html"><button class="homescreenBtn" onclick="goToHome">HOMEPAGE</button></a>
+                if(otherPopUp){
+                    otherPopUp.remove();
+                }
+
+                let scene = document.getElementById("imgsCont")
+                scene.innerHTML = ``
+
+                let newPopUpBg = document.createElement("div");
+                newPopUpBg.setAttribute("id", "pop-up-bg");
+
+                newPopUpBg.innerHTML = `
+                    <div class="pop-up-style-2" style="padding: 20px;">
+                        <img src="assets/bait-n-switch-gifs/laughing2.gif">
+                        <h1>YOU LOST</h1>
+                        <div class="productTitle">Watch this video</div>
+                            <br>
+                                <video width="320" height="240" controls>
+                                <source src="https://media.githubusercontent.com/media/mkt883/theShopMediaProj/main/assets/videos/ADMP_Videos_BaitNSwitch.mp4" type="video/mp4">                            Your browser does not support the video tag!
+                                </video>
+                            <br>
+                        <p>Watch this to understand in more depth how bait and switch works</p>
+                        <button class="homescreenBtn" onclick="location.reload()">Try again</button>
+                        <button class="homescreenBtn" onclick="goToHome()">HOMEPAGE</button>
+                    </div>
                 `
+                document.getElementsByTagName('body')[0].appendChild(newPopUpBg);
             }
             
             function goToHome(){

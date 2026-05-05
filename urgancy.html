@@ -188,6 +188,7 @@
             let itemPrice = 34.99;
             let seconds = 34
             let moveSpeed = 1;
+            let gameEnded = false;
 
             function updateTimer(){
                 const timers = document.querySelectorAll('.timer')
@@ -227,7 +228,8 @@
                 let precio = document.getElementById("precio");
                 precio.innerHTML = '£'+roundedPrice
 
-                if(seconds == 0){
+                if(seconds == 0 && gameEnded == false){
+                    gameEnded = true;
                     failScreen();
                 }
                 
@@ -244,6 +246,7 @@
             let dy = 3; 
 
             function animate() {
+                if(gameEnded) return;
                 const area = document.getElementById("bounceArea");
                 const areaWidth = area.clientWidth;
                 const areaHeight = area.clientHeight;
@@ -281,8 +284,11 @@
 
                 dx = Math.sign(dx) * moveSpeed;
                 dy = Math.sign(dy) * moveSpeed;
+                
 
-                requestAnimationFrame(animate);
+                if(!gameEnded){
+                    requestAnimationFrame(animate);
+                }
             }
 
             animate();
@@ -303,6 +309,9 @@
             // } */
 
             function failScreen(){
+                // if(gameEnded) return;
+                gameEnded = true;
+                
                 moveSpeed = 0;
                 let savedPrice = itemPrice.toFixed(2);
                 itemPrice = savedPrice
@@ -313,13 +322,14 @@
 
                 let newPopUp = document.createElement("div");
                 newPopUp.setAttribute("class", "pop-up");
+                // newPopUp.setAttribute("style", "background-color: red;");
                 newPopUp.innerHTML = `
                         <h2>You missed the sale!</h2>
                         <br>
                         <p>Watch this video to see how fake urgency works</p>
                         <br>
                             <video width="320" height="240" controls>
-                            <source src="assets/videos/ADMP_Videos_FakeUrgency.mp4" type="video/mp4">
+                                <source src="https://media.githubusercontent.com/media/mkt883/theShopMediaProj/main/assets/videos/ADMP_Videos_FakeUrgency.mp4" type="video/mp4">
                             Your browser does not support the video tag!
                             </video>
                         <br>`;
@@ -337,6 +347,9 @@
             }
 
             function boughtShirt(){
+                if(gameEnded) return;
+                gameEnded = true;
+
                 moveSpeed = 0;
                 let savedPrice = itemPrice.toFixed(2);
                 itemPrice = savedPrice
@@ -347,7 +360,18 @@
 
                 let newPopUp = document.createElement("div");
                 newPopUp.setAttribute("class", "pop-up");
-                newPopUp.innerHTML = `<p>SOLD!</p>`
+                newPopUp.innerHTML = `
+                        <h2>SOLD</h2>
+                        <p>Well done you bought the shirt</p>
+                        <br>
+                        <p>Watch this video to see how fake urgency works</p>
+                        <br>
+                            <video width="320" height="240" controls>
+                                <source src="https://media.githubusercontent.com/media/mkt883/theShopMediaProj/main/assets/videos/ADMP_Videos_FakeUrgency.mp4" type="video/mp4">
+                            Your browser does not support the video tag!
+                            </video>
+                        <br>;
+                `
                 newPopUpBg.appendChild(newPopUp);
 
                 let homeButton = document.createElement("button");

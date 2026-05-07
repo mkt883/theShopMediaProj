@@ -1,5 +1,7 @@
 # theShopMediaProj
-This is my university final project investigating dark patterns and deceptive UI design
+This is my university final project investigating dark patterns and deceptive UI design.
+
+It's a creative digital experience which I hope is enjoyable and spreads awareness about dark patterns.
 
 ## Research resources and links:
 
